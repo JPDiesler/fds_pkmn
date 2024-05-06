@@ -50,8 +50,8 @@ public abstract class Move {
         return primaryEffectiveness * secondaryEffectiveness;
     }
 
-    public abstract void use(Pokemon user, Pokemon target, Weather weather);
-    public abstract void use(Pokemon user, Pokemon[] targets, Weather weather);
+    public abstract void use(Pokemon user, Pokemon target, Weather weather,boolean verbose);
+    public abstract void use(Pokemon user, Pokemon[] targets, Weather weather,boolean verbose);
 
     // Getters
     public String getName() {

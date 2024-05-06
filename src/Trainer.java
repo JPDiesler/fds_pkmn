@@ -34,6 +34,12 @@ public class Trainer {
         this.team = team;
     }
 
+    public void printHealth(Pokemon p1,Pokemon p2){
+        System.out.println("-".repeat(35)+" Health Status "+"-".repeat(35));
+        System.out.println(p1.getName()+": "+p1.getHp()+"HP / "+p1.getMaxHp()+"HP");
+        System.out.println(p2.getName()+": "+p2.getHp()+"HP / "+p2.getMaxHp()+"HP");
+    }
+
     public int handleFainting(Pokemon pokemon, int pokemonIndex) {
         System.out.println(pokemon.getName() + " fainted");
         pokemonIndex++;
@@ -55,8 +61,11 @@ public class Trainer {
         Pokemon pokemon_2 = opponent.getTeam()[pokemon_2_index];
         System.out.println("Trainer " + this.name + " sends out " + pokemon_1.getName());
         System.out.println("Trainer " + opponent.getName() + " sends out " + pokemon_2.getName());
+        printHealth(pokemon_1, pokemon_2);
         while (true){
-            System.out.println("Turn " + turn);
+            System.out.println();
+            System.out.println("-".repeat(35)+" Turn " + turn + " "+"-".repeat(35));
+            System.out.println();
             int pokemon_1_move;
             do {
                 pokemon_1_move = (int)(Math.random() * 4);
@@ -76,9 +85,11 @@ public class Trainer {
             if (pokemon_1.getSpeed() >= pokemon_2.getSpeed()) {
                 // Pokemon 1 attacks first
                 System.out.println(pokemon_1.getName() + " attacks first!");
-                pokemon_1.getMoves()[pokemon_1_move].use(pokemon_1, pokemon_2, weather);
+                pokemon_1.getMoves()[pokemon_1_move].use(pokemon_1, pokemon_2, weather,verbose);
                 pokemon_1.getMoves()[pokemon_1_move].setAP(pokemon_1.getMoves()[pokemon_1_move].getAP() - 1);
-                System.out.println(pokemon_1.getName()+" used "+pokemon_1.getMoves()[pokemon_1_move].getName());
+                if(!verbose){
+                    System.out.println(pokemon_1.getName()+" used "+pokemon_1.getMoves()[pokemon_1_move].getName());
+                }
                 if(pokemon_2.getHp() <= 0){
                     pokemon_2_index = opponent.handleFainting(pokemon_2, pokemon_2_index);
                     if (pokemon_2_index < 0) {
@@ -94,9 +105,11 @@ public class Trainer {
             } else {
                 // Pokemon 2 attacks first
                 System.out.println(pokemon_2.getName() + " attacks first!");
-                pokemon_2.getMoves()[pokemon_2_move].use(pokemon_2, pokemon_1, weather);
+                pokemon_2.getMoves()[pokemon_2_move].use(pokemon_2, pokemon_1, weather,verbose);
                 pokemon_2.getMoves()[pokemon_2_move].setAP(pokemon_2.getMoves()[pokemon_2_move].getAP() - 1);
-                System.out.println(pokemon_2.getName()+" used "+pokemon_2.getMoves()[pokemon_2_move].getName());
+                if(!verbose){
+                    System.out.println(pokemon_2.getName()+" used "+pokemon_2.getMoves()[pokemon_2_move].getName());
+                }
                 if(pokemon_1.getHp() <= 0){
                     pokemon_1_index = this.handleFainting(pokemon_1, pokemon_1_index);
                     if (pokemon_1_index < 0) {
@@ -110,12 +123,21 @@ public class Trainer {
                     e.printStackTrace();
                 }
             }
-             // Determine which Pokemon attacks first
+             
+            try {
+                int delay = 2000;
+                Thread.sleep(delay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+             // Determine which Pokemon attacks second
              if (pokemon_1.getSpeed() < pokemon_2.getSpeed()) {
                 // Pokemon 1 attacks seocond
-                pokemon_1.getMoves()[pokemon_1_move].use(pokemon_1, pokemon_2, weather);
+                pokemon_1.getMoves()[pokemon_1_move].use(pokemon_1, pokemon_2, weather,verbose);
                 pokemon_1.getMoves()[pokemon_1_move].setAP(pokemon_1.getMoves()[pokemon_1_move].getAP() - 1);
-                System.out.println(pokemon_1.getName()+" used "+pokemon_1.getMoves()[pokemon_1_move].getName());
+                if(!verbose){
+                    System.out.println(pokemon_1.getName()+" used "+pokemon_1.getMoves()[pokemon_1_move].getName());
+                }
                 if(pokemon_2.getHp() <= 0){
                     pokemon_2_index = opponent.handleFainting(pokemon_2, pokemon_2_index);
                     if (pokemon_2_index < 0) {
@@ -130,9 +152,11 @@ public class Trainer {
                 }
             } else {
                 // Pokemon 2 attacks second
-                pokemon_2.getMoves()[pokemon_2_move].use(pokemon_2, pokemon_1, weather);
+                pokemon_2.getMoves()[pokemon_2_move].use(pokemon_2, pokemon_1, weather, verbose);
                 pokemon_2.getMoves()[pokemon_2_move].setAP(pokemon_2.getMoves()[pokemon_2_move].getAP() - 1);
-                System.out.println(pokemon_2.getName()+" used "+pokemon_2.getMoves()[pokemon_2_move].getName());
+                if(!verbose){
+                    System.out.println(pokemon_2.getName()+" used "+pokemon_2.getMoves()[pokemon_2_move].getName());
+                }
                 if(pokemon_1.getHp() <= 0){
                     pokemon_1_index = this.handleFainting(pokemon_1, pokemon_1_index);
                     if (pokemon_1_index < 0) {
@@ -168,7 +192,8 @@ public class Trainer {
                 }
                 pokemon_2 = opponent.getTeam()[pokemon_2_index];
             }
-    
+            System.out.println();
+            printHealth(pokemon_1, pokemon_2);
             turn++;
         }
     }
