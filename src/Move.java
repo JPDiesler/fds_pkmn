@@ -4,15 +4,32 @@ public abstract class Move {
     private int power;
     private int accuracy;
     private int attackPoints;
+    private int maxAttackPoints; 
+    private StatusEffect effect;
+    private float effectChance;
 
     // Constructor
-    public Move(String name, Type type, int power, int accuracy, int attackPoints) {
+    public Move(String name, Type type, int power, int accuracy, int maxAttackPoints) {
         this.name = name;
         this.type = type;
         this.power = power;
         this.accuracy = accuracy;
-        this.attackPoints = attackPoints;
+        this.attackPoints = maxAttackPoints;
+        this.maxAttackPoints = attackPoints;
     }
+
+    public Move(String name, Type type, int power, int accuracy, int maxAttackPoints, StatusEffect effect, float effectChance) {
+        this.name = name;
+        this.type = type;
+        this.power = power;
+        this.accuracy = accuracy;
+        this.attackPoints = maxAttackPoints;
+        this.maxAttackPoints = maxAttackPoints;
+        this.effect = effect;
+        this.effectChance = effectChance;
+    }
+
+    
 
     public double calculateStabMultiplier(Pokemon user) {
         if (this.getType() == user.getPrimaryType() || this.getType() == user.getSecondaryType()) {
@@ -93,5 +110,29 @@ public abstract class Move {
 
     public void setAP(int attackPoints) {
         this.attackPoints = attackPoints;
+    }
+
+    public StatusEffect getEffect() {
+        return this.effect;
+    }
+
+    public void setEffect(StatusEffect effect) {
+        this.effect = effect;
+    }   
+
+    public float getEffectChance() {
+        return this.effectChance;
+    }
+
+    public void setEffectChance(float effectChance) {
+        this.effectChance = effectChance;
+    }
+
+    public int getMaxAP() {
+        return this.maxAttackPoints;
+    }
+
+    public void setMaxAP(int maxAttackPoints) {
+        this.maxAttackPoints = maxAttackPoints;
     }
 }

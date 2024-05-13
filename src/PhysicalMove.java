@@ -4,6 +4,10 @@ public class PhysicalMove extends Move {
         super(name,type, power, accuracy, attackPoints);
     }
 
+    public PhysicalMove(String name, Type type, int power, int accuracy, int attackPoints, StatusEffect effect, float effectChance) {
+        super(name,type, power, accuracy, attackPoints, effect, effectChance);
+    }
+
     @Override
     public void use(Pokemon user, Pokemon[] targets, Weather weather,boolean verbose){
         int weather_multiplier = 1;

@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 public class Trainer {
 
     private int id;
@@ -35,14 +38,27 @@ public class Trainer {
     }
 
     public Pokemon getRandomBattleReadyPokemon() {
-        Pokemon selectedPokemon;
+        List<Pokemon> battleReadyPokemons = Arrays.stream(team)
+                                                  .filter(pokemon -> pokemon.getHp() > 0)
+                                                  .collect(Collectors.toList());
 
-        do {
-            int index = (int) (Math.random() * team.length);
-            selectedPokemon = team[index];
-        } while (selectedPokemon.getHp() <= 0);
+        if (battleReadyPokemons.isEmpty()) {
+            System.out.println(this.getName() + " has no battle-ready Pokemon left!");
+            return null;
+        }
 
-        return selectedPokemon;
+        int index = (int) (Math.random() * battleReadyPokemons.size());
+        return battleReadyPokemons.get(index);
+    }
+
+    public void printTrainerInfo() {
+        System.out.println("Trainer Name: " + this.getName());
+        System.out.println("Team:");
+        for (Pokemon pokemon : team) {
+            if (pokemon != null) {
+                System.out.println(" - " + pokemon.getName() + ", HP: " + pokemon.getHp() + ", Type: " + pokemon.getPrimaryType() + (pokemon.getSecondaryType() != null ? "/" + pokemon.getSecondaryType() : ""));
+            }
+        }
     }
 
     public void printHealth(Pokemon p1,Pokemon p2){
@@ -204,6 +220,21 @@ public class Trainer {
             System.out.println();
             printHealth(pokemon_1, pokemon_2);
             turn++;
+        }
+    }
+
+    public void healPokemon(Pokemon pokemon) {
+        pokemon.setHp(pokemon.getMaxHp());
+        for (Move move : pokemon.getMoves()) {
+            move.setAP(move.getMaxAP());
+        }
+    }
+
+    public void healTeam() {
+        for (Pokemon pokemon : team) {
+            if (pokemon != null) {
+                healPokemon(pokemon);
+            }
         }
     }
 }
