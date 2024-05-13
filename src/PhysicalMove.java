@@ -38,7 +38,7 @@ public class PhysicalMove extends Move {
                     System.out.println("Type_multiplier: " + type_multiplier);
                     System.out.println("Crit: " + crit);
                     System.out.println("Base Damage: " + base_damage);
-                    System.out.println("Effective Damage: " + effective_damage);
+                    System.out.println("Effective Damage: " + (int)effective_damage);
                 }
             }else if(!hit){
                 System.out.println(user.getName() + " missed the attack!");
@@ -80,7 +80,7 @@ public class PhysicalMove extends Move {
                     System.out.println("Type_multiplier: " + type_multiplier);
                     System.out.println("Crit: " + crit);
                     System.out.println("Base Damage: " + base_damage);
-                    System.out.println("Effective Damage: " + effective_damage);
+                    System.out.println("Effective Damage: " + (int)effective_damage);
             }
         }else if(!hit){
             System.out.println(user.getName() + " missed the attack!");

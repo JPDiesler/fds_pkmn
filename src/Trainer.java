@@ -34,31 +34,40 @@ public class Trainer {
         this.team = team;
     }
 
+    public Pokemon getRandomBattleReadyPokemon() {
+        Pokemon selectedPokemon;
+
+        do {
+            int index = (int) (Math.random() * team.length);
+            selectedPokemon = team[index];
+        } while (selectedPokemon.getHp() <= 0);
+
+        return selectedPokemon;
+    }
+
     public void printHealth(Pokemon p1,Pokemon p2){
         System.out.println("-".repeat(35)+" Health Status "+"-".repeat(35));
         System.out.println(p1.getName()+": "+p1.getHp()+"HP / "+p1.getMaxHp()+"HP");
         System.out.println(p2.getName()+": "+p2.getHp()+"HP / "+p2.getMaxHp()+"HP");
     }
 
-    public int handleFainting(Pokemon pokemon, int pokemonIndex) {
+    public Pokemon handleFainting(Pokemon pokemon) {
         System.out.println(pokemon.getName() + " fainted");
-        pokemonIndex++;
-        if (pokemonIndex >= this.team.length) {
-            return -1; // No Pokemon left
+
+        Pokemon battleReadyPokemon = getRandomBattleReadyPokemon();
+        if (battleReadyPokemon != null) {
+            System.out.println("Trainer " + this.name + " sends out " + battleReadyPokemon.getName() + "!");
         }
-        pokemon = this.team[pokemonIndex];
-        System.out.println("Trainer " + this.name + " sends out " + pokemon.getName());
-        return pokemonIndex; // Next Pokemon has been deployed
+
+        return battleReadyPokemon;
     }
 
     public int battle(Trainer opponent, boolean verbose) {
         System.out.println("Trainer " + this.name + " challenges Trainer " + opponent.getName() + " to a battle!");
         Weather weather = Weather.CLEAR;
         int turn = 1;
-        int pokemon_1_index = 0;
-        int pokemon_2_index = 0;
-        Pokemon pokemon_1 = this.team[pokemon_1_index];
-        Pokemon pokemon_2 = opponent.getTeam()[pokemon_2_index];
+        Pokemon pokemon_1 = this.getRandomBattleReadyPokemon();
+        Pokemon pokemon_2 = opponent.getRandomBattleReadyPokemon();
         System.out.println("Trainer " + this.name + " sends out " + pokemon_1.getName());
         System.out.println("Trainer " + opponent.getName() + " sends out " + pokemon_2.getName());
         printHealth(pokemon_1, pokemon_2);
@@ -91,11 +100,11 @@ public class Trainer {
                     System.out.println(pokemon_1.getName()+" used "+pokemon_1.getMoves()[pokemon_1_move].getName());
                 }
                 if(pokemon_2.getHp() <= 0){
-                    pokemon_2_index = opponent.handleFainting(pokemon_2, pokemon_2_index);
-                    if (pokemon_2_index < 0) {
+                    pokemon_2 = opponent.handleFainting(pokemon_2);
+                    if (pokemon_2 == null) {
+                        System.out.println("Trainer " + this.name + " wins the battle!");
                         return 1; // This trainer wins
                     }
-                    pokemon_2 = opponent.getTeam()[pokemon_2_index];
                 }
                 try {
                     Thread.sleep(2000);
@@ -111,11 +120,11 @@ public class Trainer {
                     System.out.println(pokemon_2.getName()+" used "+pokemon_2.getMoves()[pokemon_2_move].getName());
                 }
                 if(pokemon_1.getHp() <= 0){
-                    pokemon_1_index = this.handleFainting(pokemon_1, pokemon_1_index);
-                    if (pokemon_1_index < 0) {
+                    pokemon_1 = this.handleFainting(pokemon_1);
+                    if (pokemon_1 == null) {
+                        System.out.println("Trainer " + opponent.getName() + " wins the battle!");
                         return -1; // Opponent wins
                     }
-                    pokemon_1 = this.team[pokemon_1_index];
                 }
                 try {
                     Thread.sleep(2000);
@@ -139,11 +148,11 @@ public class Trainer {
                     System.out.println(pokemon_1.getName()+" used "+pokemon_1.getMoves()[pokemon_1_move].getName());
                 }
                 if(pokemon_2.getHp() <= 0){
-                    pokemon_2_index = opponent.handleFainting(pokemon_2, pokemon_2_index);
-                    if (pokemon_2_index < 0) {
+                    pokemon_2 = opponent.handleFainting(pokemon_2);
+                    if (pokemon_2 == null) {
+                        System.out.println("Trainer " + this.name + " wins the battle!");
                         return 1; // This trainer wins
                     }
-                    pokemon_2 = opponent.getTeam()[pokemon_2_index];
                 }
                 try {
                     Thread.sleep(2000);
@@ -158,11 +167,11 @@ public class Trainer {
                     System.out.println(pokemon_2.getName()+" used "+pokemon_2.getMoves()[pokemon_2_move].getName());
                 }
                 if(pokemon_1.getHp() <= 0){
-                    pokemon_1_index = this.handleFainting(pokemon_1, pokemon_1_index);
-                    if (pokemon_1_index < 0) {
+                    pokemon_1 = this.handleFainting(pokemon_1);
+                    if (pokemon_1 == null) {
+                        System.out.println("Trainer " + opponent.getName() + " wins the battle!");
                         return -1; // Opponent wins
                     }
-                    pokemon_1 = this.team[pokemon_1_index];
                 }
                 try {
                     Thread.sleep(2000);
@@ -179,18 +188,18 @@ public class Trainer {
     
             // Check if a Pokemon fainted due to weather or status effects
             if(pokemon_1.getHp() <= 0){
-                pokemon_1_index = this.handleFainting(pokemon_1, pokemon_1_index);
-                if (pokemon_1_index < 0) {
+                pokemon_1 = this.handleFainting(pokemon_1);
+                if (pokemon_1 == null) {
+                    System.out.println("Trainer " + opponent.getName() + " wins the battle!");
                     return -1; // Opponent wins
                 }
-                pokemon_1 = this.team[pokemon_1_index];
             }
             if(pokemon_2.getHp() <= 0){
-                pokemon_2_index = opponent.handleFainting(pokemon_2, pokemon_2_index);
-                if (pokemon_2_index < 0) {
+                pokemon_2 = opponent.handleFainting(pokemon_2);
+                if (pokemon_2 == null) {
+                    System.out.println("Trainer " + this.name + " wins the battle!");
                     return 1; // This trainer wins
                 }
-                pokemon_2 = opponent.getTeam()[pokemon_2_index];
             }
             System.out.println();
             printHealth(pokemon_1, pokemon_2);

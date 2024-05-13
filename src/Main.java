@@ -71,13 +71,5 @@ public class Main {
         Trainer Red = new Trainer(1,"Red", RedsTeam);
         Trainer Blue = new Trainer(2,"Blue", BluesTeam);
         int won = Red.battle(Blue, true);
-        if (won == 1) {
-            System.out.println(Red.getName() + " won the battle!");
-        } else if (won == -1) {
-            System.out.println(Blue.getName() + " won the battle!");
-        } else {
-            System.out.println("It was a tie!");
-        }
-
     }
 }
