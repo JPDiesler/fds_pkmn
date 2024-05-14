@@ -1,3 +1,7 @@
+import javax.sound.sampled.*;
+import java.io.File;
+import java.util.concurrent.CountDownLatch;
+
 public class Pokemon {
 
     public int id;
@@ -180,4 +184,33 @@ public class Pokemon {
         this.moves = moves;
     }
     
+    public void crie() {
+        try {
+            String formattedId = String.format("%03d", this.id);
+            File dir = new File("sounds/pokemon/");
+            File[] files = dir.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.getName().contains(formattedId)) {
+                        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+                        Clip clip = AudioSystem.getClip();
+                        CountDownLatch latch = new CountDownLatch(1);
+                        clip.addLineListener(event -> {
+                            if (event.getType() == LineEvent.Type.STOP) {
+                                latch.countDown();
+                            }
+                        });
+                        clip.open(audioInputStream);
+                        clip.start();
+                        latch.await(); // Wait for the sound to finish
+                        break; // Only play the first matching file
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
+    }
+
 }

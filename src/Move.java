@@ -1,3 +1,6 @@
+import javax.sound.sampled.*;
+import java.io.File;
+import java.util.concurrent.CountDownLatch;
 public abstract class Move {
     private String name;
     private Type type;
@@ -68,7 +71,6 @@ public abstract class Move {
     }
 
     public abstract void use(Pokemon user, Pokemon target, Weather weather,boolean verbose);
-    public abstract void use(Pokemon user, Pokemon[] targets, Weather weather,boolean verbose);
 
     // Getters
     public String getName() {
@@ -134,5 +136,51 @@ public abstract class Move {
 
     public void setMaxAP(int maxAttackPoints) {
         this.maxAttackPoints = maxAttackPoints;
+    }
+
+    
+    public void hit_SFX() {
+        play_SFX("sounds/hit/Hit_Normal_Damage.wav");
+    }
+
+    public void super_effective_hit_SFX() {
+        play_SFX("sounds/hit/Hit_Super_Effective.wav");
+    }
+
+    public void play_move_SFX() {
+        try {
+            File dir = new File("sounds/moves/");
+            File[] files = dir.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.getName().contains(this.name)) {
+                        play_SFX(file.getPath());
+                        break; // Only play the first matching file
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
+    }
+
+    public void play_SFX(String path){
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            CountDownLatch latch = new CountDownLatch(1);
+            clip.addLineListener(event -> {
+                if (event.getType() == LineEvent.Type.STOP) {
+                    latch.countDown();
+                }
+            });
+            clip.open(audioInputStream);
+            clip.start();
+            latch.await(); // Wait for the sound to finish
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
     }
 }
