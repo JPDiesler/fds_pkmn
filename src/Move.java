@@ -143,6 +143,10 @@ public abstract class Move {
         play_SFX("sounds/hit/Hit_Normal_Damage.wav");
     }
 
+    public void not_very_effective_hit_SFX() {
+        play_SFX("sounds/hit/Hit_Not_Very_Effective.wav");
+    }
+
     public void super_effective_hit_SFX() {
         play_SFX("sounds/hit/Hit_Super_Effective.wav");
     }

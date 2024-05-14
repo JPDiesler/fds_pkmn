@@ -26,7 +26,7 @@ public class PhysicalMove extends Move {
 } else if (typeMultiplier == 0.5) {
     this.play_move_SFX();
     printEffectivenessAndCrit(crit, "It's not very effective...");
-    this.hit_SFX();
+    this.not_very_effective_hit_SFX();
 } else if (typeMultiplier == 1) {
     this.play_move_SFX();
     if (verbose){
