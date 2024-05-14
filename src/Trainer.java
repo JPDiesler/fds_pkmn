@@ -10,6 +10,8 @@ public class Trainer {
     private int id;
     private String name;
     private Pokemon[] team;
+
+    private Clip clip;
     
     public Trainer(int id, String name, Pokemon[] team) {
         this.id = id;
@@ -121,7 +123,7 @@ public class Trainer {
     public int battle(Trainer opponent, boolean verbose) {
         System.out.println("-".repeat(35) + " Pokemon Battle Start " + "-".repeat(35));
         System.out.println();
-        Clip clip = null;
+        clip = null;
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds\\Pokémon_Diamond_Pearl_Platinum_Trainer_Battle_Music.wav").getAbsoluteFile());
             clip = AudioSystem.getClip();
@@ -131,7 +133,7 @@ public class Trainer {
             System.out.println("Error with playing sound.");
             ex.printStackTrace();
         }
-        delay(4000);
+        delay(10000);
         System.out.println("Trainer " + this.name + " challenges Trainer " + opponent.getName() + " to a battle!");
         Weather weather = Weather.CLEAR;
         int turn = 1;
@@ -139,13 +141,13 @@ public class Trainer {
         Pokemon pokemon_2 = opponent.team[0];
         System.out.println("Trainer " + this.name + " sends out " + pokemon_1.getName());
         pokemon_1.crie();
-        delay(1250);
+        delay(500);
         System.out.println("Trainer " + opponent.getName() + " sends out " + pokemon_2.getName());
         pokemon_2.crie();
     
         while (true) {
             System.out.println("\n" + "-".repeat(35) + " Turn " + turn + " " + "-".repeat(35) + "\n");
-            System.out.println("-".repeat(35)+" Health Status "+"-".repeat(35));
+            System.out.println();
             this.printHealth(pokemon_1);
             opponent.printHealth(pokemon_2);
             System.out.println();
@@ -163,6 +165,7 @@ public class Trainer {
                 pokemon_2 = attack(pokemon_1, pokemon_2, pokemon_1_move, weather, verbose, opponent);
                 delay(2000);
                 if (pokemon_2 == initialPokemon2) {
+                    System.out.println();
                     pokemon_1 = attack(pokemon_2, pokemon_1, pokemon_2_move, weather, verbose, this);
 
                 }
@@ -170,6 +173,7 @@ public class Trainer {
                 pokemon_1 = attack(pokemon_2, pokemon_1, pokemon_2_move, weather, verbose, this);
                 delay(2000);
                 if (pokemon_1 == initialPokemon1) {
+                    System.out.println();
                     pokemon_2 = attack(pokemon_1, pokemon_2, pokemon_1_move, weather, verbose, opponent);
                 }
             }
@@ -201,6 +205,16 @@ public class Trainer {
             if (pokemon_2 == null) {
                     System.out.println("Trainer " + this.name + " wins the battle!");
                     clip.stop();
+                    try {
+                        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds\\Victory Against Trainer!.wav").getAbsoluteFile());
+                        clip = AudioSystem.getClip();
+                        clip.open(audioInputStream);
+                        clip.start();
+                        delay(1000);
+                    } catch (Exception ex) {
+                        System.out.println("Error with playing sound.");
+                        ex.printStackTrace();
+                    }
                     return 1; // This trainer wins
                 }
             turn++;

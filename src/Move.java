@@ -156,11 +156,19 @@ public abstract class Move {
             File dir = new File("sounds/moves/");
             File[] files = dir.listFiles();
             if (files != null) {
+                File bestMatch = null;
+                int bestWordCount = Integer.MAX_VALUE;
                 for (File file : files) {
                     if (file.getName().contains(this.name)) {
-                        play_SFX(file.getPath());
-                        break; // Only play the first matching file
+                        int wordCount = file.getName().split("\\s+").length;
+                        if (wordCount < bestWordCount) {
+                            bestMatch = file;
+                            bestWordCount = wordCount;
+                        }
                     }
+                }
+                if (bestMatch != null) {
+                    play_SFX(bestMatch.getPath());
                 }
             }
         } catch (Exception ex) {

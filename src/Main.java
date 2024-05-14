@@ -10,7 +10,7 @@ public class Main {
         Move Crunch = new PhysicalMove("Crunch", Type.DARK, 80, 100, 15);
         Move Outrage = new PhysicalMove("Outrage", Type.DRAGON, 120, 100, 10);
         Move DracoMeteor = new SpecialMove("Draco Meteor", Type.DRAGON, 130, 90, 5);
-        Move FireStorm = new SpecialMove("Fire Storm", Type.FIRE, 110, 85, 10);
+        Move FireBlast = new SpecialMove("Fire Blast", Type.FIRE, 110, 85, 10);
         Move HyperBeam = new SpecialMove("HyperBeam", Type.NORMAL, 150, 90, 5);
         Move BraveBird = new PhysicalMove("Brave Bird", Type.FLYING, 120, 100, 15);
         Move Hurricane = new SpecialMove("Hurricane", Type.FLYING, 110, 70, 10);
@@ -39,7 +39,7 @@ public class Main {
 
         
         Move[] InfernapeMoves = {CloseCombat,BlastBurn,GunkShot,Earthquake};
-        Move[] GarchompMoves = {Earthquake,Outrage,DracoMeteor,FireStorm};
+        Move[] GarchompMoves = {Earthquake,Outrage,DracoMeteor,FireBlast};
         Move[] LuxrayMoves = {Thunder,WildCharge,TakeDown,Crunch};
         Move[] StaraptorMoves = {BraveBird,HyperBeam,CloseCombat,Hurricane};
         Move[] SceptileMoves = {FrenzyPlant,Earthquake,Outrage,FocusPunch};
@@ -49,7 +49,7 @@ public class Main {
         Move[] ElectevireMoves = {Earthquake,SupercellSlam,FocusBlast,IcePunch};
         Move[] PidgeotMoves = {BraveBird,HyperBeam,SteelWing,GigaImpact};
         Move[] ArcanineMoves = {FlareBlitz,IronHead,PlayRough,SolarBeam};
-        Move[] NidokingMoves = {Earthquake,FireStorm,Avalanche,PoisonJab};
+        Move[] NidokingMoves = {Earthquake,FireBlast,Avalanche,PoisonJab};
 
 
         Pokemon Infernape = new Pokemon(392,"Infernape", Type.FIRE, Type.FIGHTING, 75, StatusEffect.NONE, 269, 269, 254, 200,254,200,260,InfernapeMoves);
