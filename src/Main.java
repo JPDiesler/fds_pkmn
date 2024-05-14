@@ -72,7 +72,7 @@ public class Main {
         Trainer Red = new Trainer(1,"Red", RedsTeam);
         Trainer Blue = new Trainer(2,"Blue", BluesTeam);
         Red.printTrainerInfo();
-        int won = Red.battle(Blue, true);
+        Red.battle(Blue, true);
         System.out.println("Battle ended");
     }
 }
