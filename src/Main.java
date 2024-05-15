@@ -66,12 +66,10 @@ public class Main {
         Pokemon Arcanine = new Pokemon(59,"Arcanine", Type.FIRE, null, 75, StatusEffect.NONE, 290, 290, 264, 214,247,214,239,ArcanineMoves);
         Pokemon Nidoking = new Pokemon(34,"Nidoking", Type.POISON, Type.GROUND, 75, StatusEffect.NONE, 277, 277, 250, 210,223,206,223,NidokingMoves);
 
-
         Pokemon[] RedsTeam = {Infernape,Garchomp,Sceptile,Luxray,Staraptor,Gyarados};
         Pokemon[] BluesTeam = {Blastoise,Alakazam,Electevire,Pidgeot,Arcanine,Nidoking};
-        Trainer Red = new Trainer(1,"Red", RedsTeam);
-        Trainer Blue = new Trainer(2,"Blue", BluesTeam);
-        Red.printTrainerInfo();
+        Trainer Red = new Trainer(1,"Red", "PKMN-Trainer",RedsTeam);
+        Trainer Blue = new Trainer(2,"Blue", "Elite Four",BluesTeam);
         Red.battle(Blue, true);
         System.out.println("Battle ended");
     }

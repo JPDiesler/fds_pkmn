@@ -32,8 +32,6 @@ public abstract class Move {
         this.effectChance = effectChance;
     }
 
-    
-
     public double calculateStabMultiplier(Pokemon user) {
         if (this.getType() == user.getPrimaryType() || this.getType() == user.getSecondaryType()) {
             return 1.5;
@@ -138,20 +136,19 @@ public abstract class Move {
         this.maxAttackPoints = maxAttackPoints;
     }
 
-    
-    public void hit_SFX() {
-        play_SFX("sounds/hit/Hit_Normal_Damage.wav");
+    public void hitSFX() {
+        playSFX("sounds/hit/Hit_Normal_Damage.wav");
     }
 
-    public void not_very_effective_hit_SFX() {
-        play_SFX("sounds/hit/Hit_Not_Very_Effective.wav");
+    public void notVeryEffectiveHitSFX() {
+        playSFX("sounds/hit/Hit_Not_Very_Effective.wav");
     }
 
-    public void super_effective_hit_SFX() {
-        play_SFX("sounds/hit/Hit_Super_Effective.wav");
+    public void superEffectiveHitSFX() {
+        playSFX("sounds/hit/Hit_Super_Effective.wav");
     }
 
-    public void play_move_SFX() {
+    public void playMoveSFX() {
         try {
             File dir = new File("sounds/moves/");
             File[] files = dir.listFiles();
@@ -168,7 +165,7 @@ public abstract class Move {
                     }
                 }
                 if (bestMatch != null) {
-                    play_SFX(bestMatch.getPath());
+                    playSFX(bestMatch.getPath());
                 }
             }
         } catch (Exception ex) {
@@ -177,7 +174,7 @@ public abstract class Move {
         }
     }
 
-    public void play_SFX(String path){
+    public void playSFX(String path){
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
             Clip clip = AudioSystem.getClip();

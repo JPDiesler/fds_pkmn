@@ -61,4 +61,47 @@ public enum Type {
         }
         return effective;
     }
+
+public String getColor() {
+        switch (this) {
+            case NORMAL:
+                return "\u001B[47m\u001B[30m"; // Bright White background with Black text
+            case FIRE:
+                return "\u001B[101m\u001B[30m"; // Bright Red background with Black text
+            case WATER:
+                return "\u001B[44m\u001B[37m"; // Dark Blue background with White text
+            case ELECTRIC:
+                return "\u001B[103m\u001B[30m"; // Bright Yellow background with Black text
+            case GRASS:
+                return "\u001B[42m\u001B[30m"; // Dark Green background with Black text
+            case ICE:
+                return "\u001B[106m\u001B[30m"; // Bright Cyan background with Black text
+            case FIGHTING:
+                return "\u001B[43m\u001B[30m"; // Dark Yellow (Brown) background with Black text
+            case POISON:
+                return "\u001B[105m\u001B[30m"; // Bright Purple background with Black text
+            case GROUND:
+                return "\u001B[43m\u001B[30m"; // Dark Yellow (Brown) background with Black text
+            case FLYING:
+                return "\u001B[46m\u001B[30m"; // Dark Cyan background with Black text
+            case PSYCHIC:
+                return "\u001B[105m\u001B[30m"; // Bright Purple background with Black text
+            case BUG:
+                return "\u001B[42m\u001B[30m"; // Dark Green background with Black text
+            case ROCK:
+                return "\u001B[43m\u001B[30m"; // Dark Yellow (Brown) background with Black text
+            case GHOST:
+                return "\u001B[45m\u001B[37m"; // Dark Purple background with White text
+            case DRAGON:
+                return "\u001B[105m\u001B[30m"; // Bright Purple background with Black text
+            case DARK:
+                return "\u001B[40m\u001B[37m"; // Dark Black background with White text
+            case STEEL:
+                return "\u001B[47m\u001B[30m"; // Bright White background with Black text
+            case FAIRY:
+                return "\u001B[105m\u001B[30m"; // Bright Purple background with Black text
+            default:
+                return "\u001B[0m"; // Reset
+        }
+    }
 }

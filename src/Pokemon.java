@@ -22,6 +22,23 @@ public class Pokemon {
     
     private Move[] moves;
     
+    public Pokemon(int id, String name, Type primary_type, int level, StatusEffect status, int max_hp, int current_hp, int attack, int defense, int special_attack, int special_defense, int speed, Move[] moves) {
+        this.id = id;
+        this.name = name;
+        this.primary_type = primary_type;
+        this.secondary_type = null;
+        this.level = level;
+        this.status = status;
+        this.max_hp = max_hp;
+        this.current_hp = current_hp;
+        this.attack = attack;
+        this.defense = defense;
+        this.special_attack = special_attack;
+        this.special_defense = special_defense;
+        this.speed = speed;
+        this.moves = moves;
+    }
+
     public Pokemon(int id, String name, Type primary_type, Type secondary_type, int level, StatusEffect status, int max_hp, int current_hp, int attack, int defense, int special_attack, int special_defense, int speed, Move[] moves) {
         this.id = id;
         this.name = name;
