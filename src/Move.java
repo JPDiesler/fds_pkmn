@@ -1,13 +1,14 @@
 import javax.sound.sampled.*;
 import java.io.File;
 import java.util.concurrent.CountDownLatch;
+
 public abstract class Move {
     private String name;
     private Type type;
     private int power;
     private int accuracy;
     private int attackPoints;
-    private int maxAttackPoints; 
+    private int maxAttackPoints;
     private Effect effect;
     private double effectChance;
 
@@ -23,7 +24,8 @@ public abstract class Move {
         this.effectChance = 0.0;
     }
 
-    public Move(String name, Type type, int power, int accuracy, int maxAttackPoints, Effect effect, double effectChance) {
+    public Move(String name, Type type, int power, int accuracy, int maxAttackPoints, Effect effect,
+            double effectChance) {
         this.name = name;
         this.type = type;
         this.power = power;
@@ -45,32 +47,32 @@ public abstract class Move {
     public double getMoveEffectiveness(Type primaryType, Type secondaryType, Type moveType) {
         double primaryEffectiveness = 1.0;
         double secondaryEffectiveness = 1.0;
-    
+
         if (moveType.getEffective().contains(primaryType)) {
             primaryEffectiveness *= 2.0;
         }
         if (secondaryType != null && moveType.getEffective().contains(secondaryType)) {
             secondaryEffectiveness *= 2.0;
         }
-    
+
         if (moveType.getIneffective().contains(primaryType)) {
             primaryEffectiveness /= 2.0;
         }
         if (secondaryType != null && moveType.getIneffective().contains(secondaryType)) {
             secondaryEffectiveness /= 2.0;
         }
-    
+
         if (moveType.getImmune().contains(primaryType)) {
             primaryEffectiveness = 0.0;
         }
         if (secondaryType != null && moveType.getImmune().contains(secondaryType)) {
             secondaryEffectiveness = 0.0;
         }
-    
+
         return primaryEffectiveness * secondaryEffectiveness;
     }
 
-    public abstract void use(Pokemon user, Pokemon target, Weather weather,boolean verbose);
+    public abstract void use(Pokemon user, Pokemon target, Weather weather, boolean verbose);
 
     // Getters
     public String getName() {
@@ -120,7 +122,7 @@ public abstract class Move {
 
     public void setEffect(Effect effect) {
         this.effect = effect;
-    }   
+    }
 
     public double getEffectChance() {
         return this.effectChance;
@@ -181,7 +183,7 @@ public abstract class Move {
         }
     }
 
-    public void playSFX(String path){
+    public void playSFX(String path) {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
             Clip clip = AudioSystem.getClip();

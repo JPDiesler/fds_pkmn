@@ -13,8 +13,8 @@ public class Trainer {
     private Pokemon[] team;
 
     private Clip clip;
-    
-    public Trainer(){
+
+    public Trainer() {
         this.id = 0;
         this.name = "Red";
         this.title = "PKMN-Trainer";
@@ -39,21 +39,27 @@ public class Trainer {
         Move TakeDown = new PhysicalMove("Take Down", Type.NORMAL, 90, 85, 20);
         Move Crunch = new PhysicalMove("Crunch", Type.DARK, 80, 100, 15);
 
-        Move[] InfernapeMoves = {CloseCombat,BlastBurn,GunkShot,Earthquake};
-        Move[] GarchompMoves = {Earthquake,Outrage,DracoMeteor,FireBlast};
-        Move[] LuxrayMoves = {Thunder,WildCharge,TakeDown,Crunch};
-        Move[] StaraptorMoves = {BraveBird,HyperBeam,CloseCombat,Hurricane};
-        Move[] SceptileMoves = {FrenzyPlant,Earthquake,Outrage,FocusPunch};
-        Move[] GyaradosMoves = {HydroPump,Outrage,IceBeam,TemperFlare};
+        Move[] InfernapeMoves = { CloseCombat, BlastBurn, GunkShot, Earthquake };
+        Move[] GarchompMoves = { Earthquake, Outrage, DracoMeteor, FireBlast };
+        Move[] LuxrayMoves = { Thunder, WildCharge, TakeDown, Crunch };
+        Move[] StaraptorMoves = { BraveBird, HyperBeam, CloseCombat, Hurricane };
+        Move[] SceptileMoves = { FrenzyPlant, Earthquake, Outrage, FocusPunch };
+        Move[] GyaradosMoves = { HydroPump, Outrage, IceBeam, TemperFlare };
 
-        Pokemon Infernape = new Pokemon(392,"Infernape", Type.FIRE, Type.FIGHTING, 75, StatusEffect.NONE, 269, 269, 254, 200,254,200,260,InfernapeMoves);
-        Pokemon Garchomp = new Pokemon(445,"Garchomp", Type.DRAGON, Type.GROUND, 75, StatusEffect.NONE, 317, 317, 297, 239,214,223,250,GarchompMoves);
-        Pokemon Luxray = new Pokemon(405,"Luxray", Type.ELECTRIC, null, 75, StatusEffect.NONE, 275, 275, 280, 213,239,213,198,LuxrayMoves);
-        Pokemon Staraptor = new Pokemon(398,"Staraptor", Type.NORMAL, Type.FLYING, 75, StatusEffect.NONE, 283, 283, 280, 198,165,181,247,StaraptorMoves);
-        Pokemon Sceptile = new Pokemon(254,"Sceptile", Type.GRASS, null, 75, StatusEffect.NONE, 260, 260, 223, 190,256,223,2890,SceptileMoves);
-        Pokemon Gyarados = new Pokemon(130,"Gyarados", Type.WATER, Type.FLYING, 75, StatusEffect.NONE, 274, 274, 220, 247,223,256,211,GyaradosMoves);
+        Pokemon Infernape = new Pokemon(392, "Infernape", Type.FIRE, Type.FIGHTING, 5, StatusEffect.NONE, 269, 254, 200,
+                254, 200, 260, InfernapeMoves);
+        Pokemon Garchomp = new Pokemon(445, "Garchomp", Type.DRAGON, Type.GROUND, 5, StatusEffect.NONE, 317, 297, 239,
+                214, 223, 250, GarchompMoves);
+        Pokemon Luxray = new Pokemon(405, "Luxray", Type.ELECTRIC, null, 5, StatusEffect.NONE, 25, 280, 213, 239, 213,
+                198, LuxrayMoves);
+        Pokemon Staraptor = new Pokemon(398, "Staraptor", Type.NORMAL, Type.FLYING, 5, StatusEffect.NONE, 283, 280, 198,
+                165, 181, 247, StaraptorMoves);
+        Pokemon Sceptile = new Pokemon(254, "Sceptile", Type.GRASS, null, 5, StatusEffect.NONE, 260, 223, 190, 256, 223,
+                2890, SceptileMoves);
+        Pokemon Gyarados = new Pokemon(130, "Gyarados", Type.WATER, Type.FLYING, 5, StatusEffect.NONE, 274, 220, 247,
+                223, 256, 211, GyaradosMoves);
 
-        this.team = new Pokemon[]{Infernape, Garchomp, Luxray, Staraptor, Sceptile, Gyarados};
+        this.team = new Pokemon[] { Infernape, Garchomp, Luxray, Staraptor, Sceptile, Gyarados };
     }
 
     public Trainer(int id, String name, String title, Pokemon[] team) {
@@ -62,43 +68,43 @@ public class Trainer {
         this.title = title;
         this.team = team;
     }
-    
+
     public int getId() {
         return id;
     }
-    
+
     public void setId(int id) {
         this.id = id;
     }
-    
+
     public String getName() {
         return name;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return this.title;
     }
 
-    public void setTitle(String title){
+    public void setTitle(String title) {
         this.title = title;
     }
-    
+
     public Pokemon[] getTeam() {
         return team;
     }
-    
+
     public void setTeam(Pokemon[] team) {
         this.team = team;
     }
 
     private Pokemon getRandomBattleReadyPokemon() {
         List<Pokemon> battleReadyPokemons = Arrays.stream(team)
-                                                  .filter(pokemon -> pokemon.getHp() > 0)
-                                                  .collect(Collectors.toList());
+                .filter(pokemon -> pokemon.getHp() > 0)
+                .collect(Collectors.toList());
 
         if (battleReadyPokemons.isEmpty()) {
             System.out.println(this.getName() + " has no battle-ready Pokemon left!");
@@ -111,8 +117,8 @@ public class Trainer {
 
     private int getRandomBattleReadyPokemonCount() {
         List<Pokemon> battleReadyPokemons = Arrays.stream(team)
-                                                  .filter(pokemon -> pokemon.getHp() > 0)
-                                                  .collect(Collectors.toList());
+                .filter(pokemon -> pokemon.getHp() > 0)
+                .collect(Collectors.toList());
         return battleReadyPokemons.size();
     }
 
@@ -125,7 +131,9 @@ public class Trainer {
                 if (verbose) {
                     pokemon.printInfo();
                 } else {
-                System.out.println(" - " + pokemon.getName() + ", HP: " + pokemon.getHp() + ", Type: " + pokemon.getPrimaryType() + (pokemon.getSecondaryType() != null ? "/" + pokemon.getSecondaryType() : ""));
+                    System.out.println(" - " + pokemon.getName() + ", HP: " + pokemon.getHp() + ", Type: "
+                            + pokemon.getPrimaryType()
+                            + (pokemon.getSecondaryType() != null ? "/" + pokemon.getSecondaryType() : ""));
                 }
             }
         }
@@ -146,69 +154,82 @@ public class Trainer {
         }
     }
 
-    public void sleep(int hours){
-        if (hours > 8){
+    public void sleep(int hours) {
+        if (hours > 8) {
             hours = 8;
         }
         System.out.println(this.name + " is sleeping...");
         delay(hours * 1000);
         System.out.println(this.name + " woke up!");
-        if (hours == 8){
+        if (hours == 8) {
             System.out.println(this.name + " is fully rested!");
             healTeam();
         }
-        
+
     }
 
     public int battle(Trainer opponent, boolean verbose) {
         System.out.println("-".repeat(35) + " Pokemon Battle Start " + "-".repeat(35));
         System.out.println();
         String path;
+        String loopStartTimestamp = "0:00";
+        String loopEndTimestamp = "0:30";
         switch (opponent.getTitle()) {
-        case "Champion":
-            path = "sounds\\battle\\Pokemon Champion Battle! Gen4.wav";
-            break;
-        case "Elite Four":
-            path = "sounds\\battle\\Pokemon Elite Four Battle! Gen4.wav";
-            break;
-        case "Gym Leader":
-            path = "sounds\\battle\\Pokemon Gym Leader Battle! Gen4.wav";
-            break;
-        case "Rival":
-            path = "sounds\\battle\\Pokemon Rival Battle! Gen4.wav";
-            break;
-        default:
-            path = "sounds\\battle\\Pokemon Trainer Battle! Gen4.wav";
-            break;
-    }
-        playSoundLoop(path);
-        
+            case "Champion":
+                path = "sounds\\battle\\Pokemon Champion Battle! Gen4.wav";
+                loopStartTimestamp = "0:08.917";
+                loopEndTimestamp = "01:25.935";
+                break;
+            case "Elite Four":
+                path = "sounds\\battle\\Pokemon Elite Four Battle! Gen4.wav";
+                loopStartTimestamp = "0:48.901";
+                loopEndTimestamp = "01:23.573";
+                break;
+            case "Gym Leader":
+                path = "sounds\\battle\\Pokemon Gym Leader Battle! Gen4.wav";
+                loopStartTimestamp = "0:49.808";
+                loopEndTimestamp = "01:24.570";
+                break;
+            case "Rival":
+                path = "sounds\\battle\\Pokemon Rival Battle! Gen4.wav";
+                loopStartTimestamp = "0:14.666";
+                loopEndTimestamp = "01:07.136";
+                break;
+            default:
+                path = "sounds\\battle\\Pokemon Trainer Battle! Gen4.wav";
+                loopStartTimestamp = "0:21.109";
+                loopEndTimestamp = "01:39.386";
+                break;
+        }
+        playSoundLoop(path, loopStartTimestamp, loopEndTimestamp);
+
         delay(1000);
-        System.out.println(this.title + " " + this.name + " challenges " + opponent.title + " " + opponent.getName() + " to a battle!\n");
+        System.out.println(this.title + " " + this.name + " challenges " + opponent.title + " " + opponent.getName()
+                + " to a battle!\n");
         delay(9000);
-        
+
         Weather weather = Weather.SANDSTORM;
         int turn = 1;
         Pokemon pokemon_1 = this.team[0];
         Pokemon pokemon_2 = opponent.team[0];
         System.out.println("Trainer " + this.name + " sends out " + pokemon_1.getName());
-        pokemon_1.crie();
+        pokemon_1.depoly(verbose);
         delay(500);
         System.out.println("Trainer " + opponent.getName() + " sends out " + pokemon_2.getName());
-        pokemon_2.crie();
-    
+        pokemon_2.depoly(verbose);
+
         while (true) {
-            System.out.println("\n" + "-".repeat(35) + " Turn " + turn + " " + "-".repeat(35)+"\n");
+            System.out.println("\n" + "-".repeat(35) + " Turn " + turn + " " + "-".repeat(35) + "\n");
             this.printHealth(pokemon_1);
             opponent.printHealth(pokemon_2);
             System.out.println();
 
             int pokemon_1_move = getMove(pokemon_1);
             int pokemon_2_move = getMove(pokemon_2);
-    
+
             delay(3000, 6000);
-    
-            //Used to determine if a Pokemon has fainted after an attack
+
+            // Used to determine if a Pokemon has fainted after an attack
             Pokemon initialPokemon1 = pokemon_1;
             Pokemon initialPokemon2 = pokemon_2;
 
@@ -230,37 +251,37 @@ public class Trainer {
                     pokemon_2 = attack(pokemon_1, pokemon_2, pokemon_1_move, weather, verbose, opponent);
                 }
             }
-    
+
             delay(2000);
-    
+
             // Apply weather and status effects at the end of the turn
-            if(pokemon_1 != null && pokemon_2 != null){
-                weather = weather.applyEffect(pokemon_1, pokemon_2,verbose);
+            if (pokemon_1 != null && pokemon_2 != null) {
+                weather = weather.applyEffect(pokemon_1, pokemon_2, verbose);
                 pokemon_1.resetAfterDuration(verbose);
                 pokemon_2.resetAfterDuration(verbose);
             }
             // Check if a Pokemon fainted due to weather or status effects
             if (pokemon_1 != null && pokemon_1.getHp() <= 0) {
-                pokemon_1 = this.handleFainting(pokemon_1,pokemon_2);
+                pokemon_1 = this.handleFainting(pokemon_1, pokemon_2, verbose);
             }
             if (pokemon_2 != null && pokemon_2.getHp() <= 0) {
-                pokemon_2 = opponent.handleFainting(pokemon_2,pokemon_1);
+                pokemon_2 = opponent.handleFainting(pokemon_2, pokemon_1, verbose);
             }
             if (pokemon_1 == null) {
-                    System.out.println(opponent.getTitle() + " " + opponent.getName() + " wins the battle!");
-                    clip.stop();
-                    return -1; // Opponent wins
-                }
+                System.out.println(opponent.getTitle() + " " + opponent.getName() + " wins the battle!");
+                clip.stop();
+                return -1; // Opponent wins
+            }
             if (pokemon_2 == null) {
-                    System.out.println(this.title + " " + this.name + " wins the battle!");
-                    clip.stop();
-                    playSoundLoop("sounds\\battle\\Victory Against Trainer!.wav");
-                    return 1; // This trainer wins
-                }
+                System.out.println(this.title + " " + this.name + " wins the battle!");
+                clip.stop();
+                playSFX("sounds\\battle\\Victory Against Trainer!.wav");
+                return 1; // This trainer wins
+            }
             turn++;
         }
     }
-    
+
     private int getMove(Pokemon pokemon) {
         int move;
         do {
@@ -268,7 +289,7 @@ public class Trainer {
         } while (pokemon.getMoves()[move].getAP() <= 0);
         return move;
     }
-    
+
     private void delay(int min, int max) {
         try {
             int delay = min + (int) (Math.random() * ((max - min) + 1));
@@ -277,7 +298,7 @@ public class Trainer {
             e.printStackTrace();
         }
     }
-    
+
     private void delay(int delay) {
         try {
             Thread.sleep(delay);
@@ -285,23 +306,24 @@ public class Trainer {
             e.printStackTrace();
         }
     }
-    
-    private Pokemon attack(Pokemon attacker, Pokemon defender, int move, Weather weather, boolean verbose, Trainer trainer) {
+
+    private Pokemon attack(Pokemon attacker, Pokemon defender, int move, Weather weather, boolean verbose,
+            Trainer trainer) {
         attacker.getMoves()[move].use(attacker, defender, weather, verbose);
         attacker.getMoves()[move].setAP(attacker.getMoves()[move].getAP() - 1);
         if (!verbose) {
             System.out.println(attacker.getName() + " used " + attacker.getMoves()[move].getName());
         }
         if (defender.getHp() <= 0) {
-            defender = trainer.handleFainting(defender,attacker);
+            defender = trainer.handleFainting(defender, attacker, verbose);
         }
         return defender;
     }
 
-    private void printHealth(Pokemon p1){
+    private void printHealth(Pokemon p1) {
         int r = this.getRandomBattleReadyPokemonCount();
         int f = this.team.length - r;
-        System.out.println("Trainer " + this.getName()+ " " + "*".repeat(r)+"-".repeat(f));
+        System.out.println("Trainer " + this.getName() + " " + "*".repeat(r) + "-".repeat(f));
         double hpPercentage = (double) p1.getHp() / p1.getMaxHp() * 100;
         String colorCode;
         if (hpPercentage >= 50) {
@@ -311,10 +333,11 @@ public class Trainer {
         } else {
             colorCode = "\u001B[31m"; // Red
         }
-        System.out.println(p1.getName() + " Lvl."+p1.getLevel()+" : " + colorCode + p1.getHp() + "HP / " + p1.getMaxHp() + "HP\u001B[0m "+p1.getStatus().getTag());
+        System.out.println(p1.getName() + " Lvl." + p1.getLevel() + " : " + colorCode + p1.getHp() + "HP / "
+                + p1.getMaxHp() + "HP\u001B[0m " + p1.getStatus().getTag());
     }
 
-    private Pokemon handleFainting(Pokemon fainting, Pokemon attacker) {
+    private Pokemon handleFainting(Pokemon fainting, Pokemon attacker, boolean verbose) {
         System.out.println(fainting.getName() + " fainted");
         playSFX("sounds\\In-Battle_Faint_No_Health.mp3.wav");
         delay(1000);
@@ -322,18 +345,25 @@ public class Trainer {
         attacker.addEXP(exp);
         Pokemon battleReadyPokemon = getRandomBattleReadyPokemon();
         if (battleReadyPokemon != null) {
-            System.out.println("Trainer " + this.name + " sends out " + battleReadyPokemon.getName() + "!");
-            battleReadyPokemon.crie();
+            battleReadyPokemon.depoly(verbose);
         }
         return battleReadyPokemon;
     }
 
-    private void playSoundLoop(String path) {
+    private void playSoundLoop(String path, String loopStartTimestamp, String loopEndTimestamp) {
         clip = null;
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
+            AudioFormat format = audioInputStream.getFormat();
+            float frameRate = format.getFrameRate();
+
+            // Convert timestamps to frames
+            int loopStartFrame = timestampToFrames(loopStartTimestamp, frameRate);
+            int loopEndFrame = timestampToFrames(loopEndTimestamp, frameRate);
+
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
+            clip.setLoopPoints(loopStartFrame, loopEndFrame);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         } catch (Exception ex) {
             System.out.println("Error with playing sound.");
@@ -341,7 +371,14 @@ public class Trainer {
         }
     }
 
-    public void playSFX(String path){
+    private int timestampToFrames(String timestamp, float frameRate) {
+        String[] parts = timestamp.split(":");
+        float minutes = Float.parseFloat(parts[0]);
+        float seconds = Float.parseFloat(parts[1]);
+        return (int) ((minutes * 60 + seconds) * frameRate);
+    }
+
+    public void playSFX(String path) {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
             Clip clip = AudioSystem.getClip();
@@ -360,4 +397,3 @@ public class Trainer {
         }
     }
 }
-

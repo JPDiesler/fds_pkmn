@@ -42,24 +42,24 @@ public enum StatusEffect {
         }
     }
 
-    public String getTag(){
-        switch (this){
+    public String getTag() {
+        switch (this) {
             case BURN:
-                return this.getColor()+" BRN \u001B[0m";
+                return this.getColor() + " BRN \u001B[0m";
             case PARALYSIS:
-                return this.getColor()+" PAR \u001B[0m";
+                return this.getColor() + " PAR \u001B[0m";
             case FREEZE:
-                return this.getColor()+" FRZ \u001B[0m";
+                return this.getColor() + " FRZ \u001B[0m";
             case POISON:
-                return this.getColor()+" PSN \u001B[0m";
+                return this.getColor() + " PSN \u001B[0m";
             case SLEEP:
-                return this.getColor()+" SLP \u001B[0m";
+                return this.getColor() + " SLP \u001B[0m";
             case CONFUSION:
-                return this.getColor()+" CNF \u001B[0m";
+                return this.getColor() + " CNF \u001B[0m";
             default:
                 return "";
         }
-    
+
     }
 
     public String toString() {

@@ -6,22 +6,29 @@ import java.util.stream.Collectors;
 
 public enum Type {
     NORMAL(Arrays.asList(), Arrays.asList("ROCK", "STEEL"), Arrays.asList("GHOST")),
-    FIRE(Arrays.asList(), Arrays.asList("FIRE", "WATER", "ROCK", "DRAGON"), Arrays.asList("GRASS", "ICE", "BUG", "STEEL")),
+    FIRE(Arrays.asList(), Arrays.asList("FIRE", "WATER", "ROCK", "DRAGON"),
+            Arrays.asList("GRASS", "ICE", "BUG", "STEEL")),
     WATER(Arrays.asList(), Arrays.asList("WATER", "GRASS", "DRAGON"), Arrays.asList("FIRE", "GROUND", "ROCK")),
     ELECTRIC(Arrays.asList("GROUND"), Arrays.asList("ELECTRIC", "GRASS", "DRAGON"), Arrays.asList("WATER", "FLYING")),
-    GRASS(Arrays.asList(), Arrays.asList("FIRE", "GRASS", "POISON", "FLYING", "BUG", "DRAGON", "STEEL"), Arrays.asList("WATER", "GROUND", "ROCK")),
-    ICE(Arrays.asList(), Arrays.asList("FIRE", "WATER", "ICE", "STEEL"), Arrays.asList("GRASS", "GROUND", "FLYING", "DRAGON")),
-    FIGHTING(Arrays.asList("GHOST"), Arrays.asList("POISON", "FLYING", "PSYCHIC", "BUG", "FAIRY"), Arrays.asList("NORMAL", "ICE", "ROCK", "DARK", "STEEL")),
+    GRASS(Arrays.asList(), Arrays.asList("FIRE", "GRASS", "POISON", "FLYING", "BUG", "DRAGON", "STEEL"),
+            Arrays.asList("WATER", "GROUND", "ROCK")),
+    ICE(Arrays.asList(), Arrays.asList("FIRE", "WATER", "ICE", "STEEL"),
+            Arrays.asList("GRASS", "GROUND", "FLYING", "DRAGON")),
+    FIGHTING(Arrays.asList("GHOST"), Arrays.asList("POISON", "FLYING", "PSYCHIC", "BUG", "FAIRY"),
+            Arrays.asList("NORMAL", "ICE", "ROCK", "DARK", "STEEL")),
     POISON(Arrays.asList("STEEL"), Arrays.asList("POISON", "GROUND", "ROCK", "GHOST"), Arrays.asList("GRASS", "FAIRY")),
-    GROUND(Arrays.asList("FLYING"), Arrays.asList("GRASS", "BUG"), Arrays.asList("FIRE", "ELECTRIC", "POISON", "ROCK", "STEEL")),
+    GROUND(Arrays.asList("FLYING"), Arrays.asList("GRASS", "BUG"),
+            Arrays.asList("FIRE", "ELECTRIC", "POISON", "ROCK", "STEEL")),
     FLYING(Arrays.asList(), Arrays.asList("ELECTRIC", "ROCK", "STEEL"), Arrays.asList("GRASS", "FIGHTING", "BUG")),
     PSYCHIC(Arrays.asList("DARK"), Arrays.asList("STEEL", "PSYCHIC"), Arrays.asList("FIGHTING", "POISON")),
-    BUG(Arrays.asList(), Arrays.asList("FIRE", "FIGHTING", "POISON", "FLYING", "GHOST", "STEEL", "FAIRY"), Arrays.asList("GRASS", "PSYCHIC", "DARK")),
+    BUG(Arrays.asList(), Arrays.asList("FIRE", "FIGHTING", "POISON", "FLYING", "GHOST", "STEEL", "FAIRY"),
+            Arrays.asList("GRASS", "PSYCHIC", "DARK")),
     ROCK(Arrays.asList(), Arrays.asList("FIGHTING", "GROUND", "STEEL"), Arrays.asList("FIRE", "ICE", "FLYING", "BUG")),
     GHOST(Arrays.asList("NORMAL"), Arrays.asList("DARK"), Arrays.asList("PSYCHIC", "GHOST")),
     DRAGON(Arrays.asList("FAIRY"), Arrays.asList("STEEL"), Arrays.asList("DRAGON")),
     DARK(Arrays.asList(), Arrays.asList("FIGHTING", "DARK", "FAIRY"), Arrays.asList("PSYCHIC", "GHOST")),
-    STEEL(Arrays.asList("POISON"), Arrays.asList("FIRE", "WATER", "ELECTRIC", "STEEL"), Arrays.asList("ICE", "ROCK", "FAIRY")),
+    STEEL(Arrays.asList("POISON"), Arrays.asList("FIRE", "WATER", "ELECTRIC", "STEEL"),
+            Arrays.asList("ICE", "ROCK", "FAIRY")),
     FAIRY(Arrays.asList(), Arrays.asList("FIRE", "POISON", "STEEL"), Arrays.asList("FIGHTING", "DRAGON", "DARK"));
 
     private static final Map<String, Type> stringToType = Arrays.stream(Type.values())
@@ -62,7 +69,7 @@ public enum Type {
         return effective;
     }
 
-public String getColor() {
+    public String getColor() {
         switch (this) {
             case NORMAL:
                 return "\u001B[47m\u001B[30m"; // Bright White background with Black text
@@ -102,6 +109,49 @@ public String getColor() {
                 return "\u001B[105m\u001B[30m"; // Bright Purple background with Black text
             default:
                 return "\u001B[0m"; // Reset
+        }
+    }
+
+    public String getTag() {
+        switch (this) {
+            case NORMAL:
+                return this.getColor() + " NORMAL " + "\u001B[0m";
+            case FIRE:
+                return this.getColor() + " FIRE " + "\u001B[0m";
+            case WATER:
+                return this.getColor() + " WATER " + "\u001B[0m";
+            case ELECTRIC:
+                return this.getColor() + " ELECTRIC " + "\u001B[0m";
+            case GRASS:
+                return this.getColor() + " GRASS " + "\u001B[0m";
+            case ICE:
+                return this.getColor() + " ICE " + "\u001B[0m";
+            case FIGHTING:
+                return this.getColor() + " FIGHTING " + "\u001B[0m";
+            case POISON:
+                return this.getColor() + " POISON " + "\u001B[0m";
+            case GROUND:
+                return this.getColor() + " GROUND " + "\u001B[0m";
+            case FLYING:
+                return this.getColor() + " FLYING " + "\u001B[0m";
+            case PSYCHIC:
+                return this.getColor() + " PSYCHIC " + "\u001B[0m";
+            case BUG:
+                return this.getColor() + " BUG " + "\u001B[0m";
+            case ROCK:
+                return this.getColor() + " ROCK " + "\u001B[0m";
+            case GHOST:
+                return this.getColor() + " GHOST " + "\u001B[0m";
+            case DRAGON:
+                return this.getColor() + " DRAGON " + "\u001B[0m";
+            case DARK:
+                return this.getColor() + " DARK " + "\u001B[0m";
+            case STEEL:
+                return this.getColor() + " STEEL " + "\u001B[0m";
+            case FAIRY:
+                return this.getColor() + " FAIRY " + "\u001B[0m";
+            default:
+                return "";
         }
     }
 }

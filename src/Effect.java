@@ -8,32 +8,32 @@ public enum Effect {
     CONFUSE,
     LOWERATTACKS,
     LOWERDEFENCES;
-    
+
     public void apply(Pokemon user, Pokemon target, boolean verbose) {
         switch (this) {
             case CONFUSE:
                 target.applyStatusEffect(StatusEffect.CONFUSION);
-                System.out.println(target.getName() + " became confused!");
+                System.out.println(target.getName() + " became confused! " + StatusEffect.CONFUSION.getTag());
                 break;
             case SLEEP:
                 target.applyStatusEffect(StatusEffect.SLEEP);
-                System.out.println(target.getName() + " fell asleep!");
+                System.out.println(target.getName() + " fell asleep! " + StatusEffect.SLEEP.getTag());
                 break;
             case FREEZE:
                 target.applyStatusEffect(StatusEffect.FREEZE);
-                System.out.println(target.getName() + " was frozen solid!");
+                System.out.println(target.getName() + " was frozen solid! " + StatusEffect.FREEZE.getTag());
                 break;
             case POISON:
                 target.applyStatusEffect(StatusEffect.POISON);
-                System.out.println(target.getName() + " was poisoned!");
+                System.out.println(target.getName() + " was poisoned! " + StatusEffect.POISON.getTag());
                 break;
             case BURN:
                 target.applyStatusEffect(StatusEffect.BURN);
-                System.out.println(target.getName() + " was burned!");
+                System.out.println(target.getName() + " was burned! " + StatusEffect.BURN.getTag());
                 break;
             case PARALYSIS:
                 target.applyStatusEffect(StatusEffect.PARALYSIS);
-                System.out.println(target.getName() + " was paralyzed!");
+                System.out.println(target.getName() + " was paralyzed! " + StatusEffect.PARALYSIS.getTag());
                 break;
             case LOWERATTACKS:
                 user.setAttack(user.getAttack() - 1);
@@ -41,7 +41,7 @@ public enum Effect {
                 System.out.println(user.getName() + "'s Attack fell!");
                 delay(500);
                 System.out.println(user.getName() + "'s Sp. Attack fell!");
-                if(verbose){
+                if (verbose) {
                     System.out.println("Attack: -1 Sp. Attack: -1");
                 }
                 break;
@@ -51,7 +51,7 @@ public enum Effect {
                 System.out.println(user.getName() + "'s Defence fell!");
                 delay(500);
                 System.out.println(user.getName() + "'s Sp. Defence fell!");
-                if(verbose){
+                if (verbose) {
                     System.out.println("Defence: -1 Sp. Defence: -1");
                 }
                 break;

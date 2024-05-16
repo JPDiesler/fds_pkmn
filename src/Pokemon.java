@@ -31,16 +31,17 @@ public class Pokemon {
 
     private final int iv = 31;
     private final int ev = 252;
-    
+
     private Move[] moves;
-    
-    public Pokemon(int id, String name, Type primary_type, int level, StatusEffect status, int hp, int attack, int defense, int special_attack, int special_defense, int speed, Move[] moves) {
+
+    public Pokemon(int id, String name, Type primary_type, int level, StatusEffect status, int hp, int attack,
+            int defense, int special_attack, int special_defense, int speed, Move[] moves) {
         this.id = id;
         this.name = name;
         this.primary_type = primary_type;
         this.secondary_type = null;
         this.level = level;
-        this.expirience = (int) Math.pow(level,3);
+        this.expirience = (int) Math.pow(level, 3);
         this.status = status;
         this.hp_AS = hp;
         this.attack_AS = attack;
@@ -55,7 +56,8 @@ public class Pokemon {
         this.setHp(max_hp);
     }
 
-    public Pokemon(int id, String name, Type primary_type, Type secondary_type, int level, StatusEffect status, int hp, int attack, int defense, int special_attack, int special_defense, int speed, Move[] moves) {
+    public Pokemon(int id, String name, Type primary_type, Type secondary_type, int level, StatusEffect status, int hp,
+            int attack, int defense, int special_attack, int special_defense, int speed, Move[] moves) {
         this.id = id;
         this.name = name;
         this.primary_type = primary_type;
@@ -75,17 +77,17 @@ public class Pokemon {
         this.setHp(max_hp);
     }
 
-    private void calculateHP(){
+    private void calculateHP() {
         int hp = (int) ((((2.0 * hp_AS + iv + (ev / 4.0)) * level) / 100.0) + level + 10);
         this.max_hp = hp;
     }
 
-    private int calculateStat(int base){
+    private int calculateStat(int base) {
         int stat = (int) ((((2.0 * base + iv + (ev / 4.0)) * level) / 100.0) + 5);
         return stat;
     }
 
-    private void calculateStats(){
+    private void calculateStats() {
         this.attack = calculateStat(this.attack_AS);
         this.defense = calculateStat(this.defense_AS);
         this.special_attack = calculateStat(this.special_attack_AS);
@@ -99,32 +101,33 @@ public class Pokemon {
     }
 
     public void applyStatusDamage(boolean verbose) {
-        int damage = (int)(status.getDamage() * this.max_hp);
-        this.setHp(this.current_hp-damage);
-        if(this.status == StatusEffect.BURN || this.status == StatusEffect.POISON){
+        int damage = (int) (status.getDamage() * this.max_hp);
+        this.setHp(this.current_hp - damage);
+        if (this.status == StatusEffect.BURN || this.status == StatusEffect.POISON) {
             System.out.println(name + " took damage from " + status + ".");
             if (verbose) {
-                System.out.println(name + " took " + damage + " damage from " + status + ".");
-            }
-        }else{
-            switch(this.status){
-                case SLEEP:
-                    System.out.println(name + " is fast asleep.");
-                    break;
-                case FREEZE:
-                    System.out.println(name + " is frozen solid.");
-                    break;
-                case PARALYSIS:
-                    System.out.println(name + " is paralyzed.");
-                    break;
-                case CONFUSION:
-                    System.out.println(name + " is confused.");
-                    break;
-                default:
-                    break;
+                System.out.println(status.getTag() + " damage: " + damage);
             }
         }
-        
+        // }else{
+        // switch(this.status){
+        // case SLEEP:
+        // System.out.println(name + " is fast asleep.");
+        // break;
+        // case FREEZE:
+        // System.out.println(name + " is frozen solid.");
+        // break;
+        // case PARALYSIS:
+        // System.out.println(name + " is paralyzed.");
+        // break;
+        // case CONFUSION:
+        // System.out.println(name + " is confused.");
+        // break;
+        // default:
+        // break;
+        // }
+        // }
+
     }
 
     public void resetAfterDuration(boolean verbose) {
@@ -186,18 +189,21 @@ public class Pokemon {
         int oldSpecialAttack = this.special_attack;
         int oldSpecialDefense = this.special_defense;
         int oldSpeed = this.speed;
-    
+
         this.level = level;
-        this.expirience = (int) Math.pow(level,3);
+        this.expirience = (int) Math.pow(level, 3);
         calculateHP();
         calculateStats();
-        
+
         System.out.println(name + " leveled up to " + level + "!\n");
         System.out.println("HP: " + oldMaxHp + " -> " + this.max_hp + " (+" + (this.max_hp - oldMaxHp) + ")");
         System.out.println("Attack: " + oldAttack + " -> " + this.attack + " (+" + (this.attack - oldAttack) + ")");
-        System.out.println("Defense: " + oldDefense + " -> " + this.defense + " (+" + (this.defense - oldDefense) + ")");
-        System.out.println("Special Attack: " + oldSpecialAttack + " -> " + this.special_attack + " (+" + (this.special_attack - oldSpecialAttack) + ")");
-        System.out.println("Special Defense: " + oldSpecialDefense + " -> " + this.special_defense + " (+" + (this.special_defense - oldSpecialDefense) + ")");
+        System.out
+                .println("Defense: " + oldDefense + " -> " + this.defense + " (+" + (this.defense - oldDefense) + ")");
+        System.out.println("Special Attack: " + oldSpecialAttack + " -> " + this.special_attack + " (+"
+                + (this.special_attack - oldSpecialAttack) + ")");
+        System.out.println("Special Defense: " + oldSpecialDefense + " -> " + this.special_defense + " (+"
+                + (this.special_defense - oldSpecialDefense) + ")");
         System.out.println("Speed: " + oldSpeed + " -> " + this.speed + " (+" + (this.speed - oldSpeed) + ")");
     }
 
@@ -226,7 +232,7 @@ public class Pokemon {
             this.current_hp = max_hp;
         } else if (current_hp < 0) {
             this.current_hp = 0;
-        }else{
+        } else {
             this.current_hp = current_hp;
         }
     }
@@ -278,12 +284,13 @@ public class Pokemon {
     public void setMoves(Move[] moves) {
         this.moves = moves;
     }
-   
-    public void addEXP(int exp){
+
+    public void addEXP(int exp) {
         System.out.println(name + " gained " + exp + " exp.");
         this.expirience += exp;
-        if(this.expirience >= Math.pow(level+1,3)){
-            this.setLevel(level+1);
+        if (this.expirience >= Math.pow(level + 1, 3)) {
+            this.setLevel(level + 1);
+            playSFX("sounds\\Level Up.wav");
         }
     }
 
@@ -295,21 +302,31 @@ public class Pokemon {
             if (files != null) {
                 for (File file : files) {
                     if (file.getName().contains(formattedId)) {
-                        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
-                        Clip clip = AudioSystem.getClip();
-                        CountDownLatch latch = new CountDownLatch(1);
-                        clip.addLineListener(event -> {
-                            if (event.getType() == LineEvent.Type.STOP) {
-                                latch.countDown();
-                            }
-                        });
-                        clip.open(audioInputStream);
-                        clip.start();
-                        latch.await(); // Wait for the sound to finish
+                        playSFX(file.getPath());
                         break; // Only play the first matching file
                     }
                 }
             }
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
+    }
+
+    private void playSFX(String soundFilePath) {
+        try {
+            File soundFile = new File(soundFilePath);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            CountDownLatch latch = new CountDownLatch(1);
+            clip.addLineListener(event -> {
+                if (event.getType() == LineEvent.Type.STOP) {
+                    latch.countDown();
+                }
+            });
+            clip.open(audioInputStream);
+            clip.start();
+            latch.await(); // Wait for the sound to finish
         } catch (Exception ex) {
             System.out.println("Error with playing sound.");
             ex.printStackTrace();
@@ -334,6 +351,23 @@ public class Pokemon {
         for (Move move : moves) {
             System.out.println(" - " + move.getName());
         }
+    }
+
+    public void depoly(boolean verbose) {
+        if (verbose) {
+            Type[] typing = this.getTyping();
+            if (typing[1] != null) {
+                System.out.println("Trainer " + this.name + " sends out " + this.getName() + "! " + typing[0].getTag()
+                        + " / " + typing[1].getTag());
+            } else {
+                System.out.println("Trainer " + this.name + " sends out " + this.getName() + "! " + typing[0].getTag());
+            }
+        } else {
+            System.out.println("Trainer " + this.name + " sends out " + this.getName() + "!");
+        }
+
+        this.crie();
+
     }
 
 }

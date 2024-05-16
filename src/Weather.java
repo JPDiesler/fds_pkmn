@@ -18,17 +18,17 @@ public enum Weather {
     FOG,
     SNOW;
 
-    public Weather applyEffect(Pokemon pokemon1, Pokemon pokemon2,Boolean verbose) {
+    public Weather applyEffect(Pokemon pokemon1, Pokemon pokemon2, Boolean verbose) {
         switch (this) {
             case SANDSTORM:
                 System.out.println("The sandstorm rages!");
-                applyWeatherDamage(pokemon1,verbose);
-                applyWeatherDamage(pokemon2,verbose);
+                applyWeatherDamage(pokemon1, verbose);
+                applyWeatherDamage(pokemon2, verbose);
                 break;
             case HAIL:
                 System.out.println("The hailstorm rages!");
-                applyWeatherDamage(pokemon1,verbose);
-                applyWeatherDamage(pokemon2,verbose);
+                applyWeatherDamage(pokemon1, verbose);
+                applyWeatherDamage(pokemon2, verbose);
                 break;
             case CLEAR:
                 break;
@@ -50,7 +50,8 @@ public enum Weather {
                 // No effects
                 break;
         }
-        if (Math.random() < 0.05 && (this == Weather.RAIN || this == Weather.HEAVY_RAIN || this == Weather.SANDSTORM || this == Weather.HAIL)) {
+        if (Math.random() < 0.05 && (this == Weather.RAIN || this == Weather.HEAVY_RAIN || this == Weather.SANDSTORM
+                || this == Weather.HAIL)) {
             System.out.println("The weather cleared up!");
             return Weather.CLEAR;
         } else {
@@ -119,24 +120,24 @@ public enum Weather {
         return 1.0;
     }
 
-    private void applyWeatherDamage(Pokemon target,boolean verbose){
+    private void applyWeatherDamage(Pokemon target, boolean verbose) {
         String sound = "sounds/hit/Hit_Not_Very_Effective.wav";
         if (target != null) {
-                    Type[] types1 = target.getTyping();
-                    if (!(types1[0] == Type.ROCK || types1[0] == Type.GROUND || types1[0] == Type.STEEL || 
-                          types1[1] == Type.ROCK || types1[1] == Type.GROUND || types1[1] == Type.STEEL)) {
-                        target.setHp(target.getHp() - target.getMaxHp() / 16);
-                        System.out.println(target.getName() + " took damage from the "+this.name().toLowerCase()+"!");
-                        if (verbose){
-                            System.out.println("Weather damage: "+ target.getMaxHp() / 16);
-                        }
-                        playSFX(sound);
-                        delay(1000);
-                    }
+            Type[] types1 = target.getTyping();
+            if (!(types1[0] == Type.ROCK || types1[0] == Type.GROUND || types1[0] == Type.STEEL ||
+                    types1[1] == Type.ROCK || types1[1] == Type.GROUND || types1[1] == Type.STEEL)) {
+                target.setHp(target.getHp() - target.getMaxHp() / 16);
+                System.out.println(target.getName() + " took damage from the " + this.name().toLowerCase() + "!");
+                if (verbose) {
+                    System.out.println("Weather damage: " + target.getMaxHp() / 16);
                 }
+                playSFX(sound);
+                delay(1000);
+            }
+        }
     }
 
-    private void playSFX(String path){
+    private void playSFX(String path) {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
             Clip clip = AudioSystem.getClip();
