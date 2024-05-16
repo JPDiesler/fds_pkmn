@@ -1,24 +1,73 @@
+import java.io.ObjectInputFilter.Status;
 import java.util.Locale;
 
 public class PhysicalMove extends Move {
     
+    public PhysicalMove(){
+        super("Close Combat", Type.FIGHTING, 120, 100, 5, Effect.LOWERDEFENCES,1);
+    }
+
     public PhysicalMove(String name, Type type, int power, int accuracy, int attackPoints) {
         super(name,type, power, accuracy, attackPoints);
     }
 
-    public PhysicalMove(String name, Type type, int power, int accuracy, int attackPoints, StatusEffect effect, float effectChance) {
+    public PhysicalMove(String name, Type type, int power, int accuracy, int attackPoints, Effect effect, double effectChance) {
         super(name,type, power, accuracy, attackPoints, effect, effectChance);
     }
 
+    /**
+     * Executes a special move from one Pokemon to another.
+     *
+     * @param user The Pokemon that is using the move.
+     * @param target The Pokemon that the move is being used on.
+     * @param weather The current weather, which can affect the move's accuracy and damage.
+     * @param verbose If true, additional information about the move's execution will be printed.
+     *
+     * This method first checks if the move hits, which is determined by the move's accuracy and potentially affected by the weather.
+     * If the move hits, it calculates the damage based on several factors:
+     * - A random multiplier to add some variability to the damage.
+     * - A STAB (Same-Type Attack Bonus) multiplier, which increases the damage if the user's type matches the move's type.
+     * - A type multiplier, which is based on the effectiveness of the move's type against the target's type(s).
+     * - A weather multiplier, which can increase or decrease the damage based on the weather.
+     * - A critical hit multiplier, which can increase the damage if a critical hit occurs.
+     *
+     * The method then applies the damage to the target's HP.
+     * If the verbose parameter is true, it also prints detailed information about the damage calculation.
+     */
     @Override
     public void use(Pokemon user, Pokemon target, Weather weather, boolean verbose) {
-        boolean hit = Math.random() * 100 < this.getAccuracy();
+        StatusEffect userStatus = user.getStatus();
+        if (userStatus == StatusEffect.PARALYSIS || userStatus == StatusEffect.FREEZE || userStatus == StatusEffect.SLEEP){
+            if (userStatus == StatusEffect.PARALYSIS && Math.random() < 0.90) {
+                System.out.println(String.format(Locale.US,"%s is paralyzed and can't move!", user.getName()));
+                return;
+            }
+            if (userStatus == StatusEffect.FREEZE) {
+                System.out.println(String.format(Locale.US,"%s is frozen solid!", user.getName()));
+                return;
+            }
+            if (userStatus == StatusEffect.SLEEP) {
+                System.out.println(String.format(Locale.US,"%s is fast asleep!", user.getName()));
+                return;
+            }
+        }
+        if (userStatus == StatusEffect.CONFUSION && Math.random() < 0.50) {
+            System.out.println(String.format(Locale.US,"%s is confused and hurt itself in its confusion!", user.getName()));
+            user.setHp((int) (user.getHp() - this.calculateConfusionDamage(user)));
+            if (verbose) {
+                System.out.println("Damage: " + (int)this.calculateConfusionDamage(user));
+            }
+            return;
+        }
+        
+        double accuracy = (weather == Weather.FOG) ? this.getAccuracy() * 0.75 : this.getAccuracy();
+        boolean hit = Math.random() * 100 < accuracy;
         System.out.println(String.format("%s used %s", user.getName(), getName()));
-    
         if (!hit) {
             System.out.println(String.format(Locale.US,"%s missed the attack!", user.getName()));
             return;
         }
+
         double randomMultiplier = Math.random() * 0.16 + 0.85;
         double stabMultiplier = calculateStabMultiplier(user);
         double typeMultiplier = getMoveEffectiveness(target.getPrimaryType(), target.getSecondaryType(), getType());
@@ -52,17 +101,46 @@ public class PhysicalMove extends Move {
             double effectiveDamage = baseDamage * stabMultiplier * typeMultiplier * randomMultiplier * critMultiplier * weatherMultiplier;
     
             target.setHp((int) (target.getHp() - effectiveDamage));
-    
+
             if (verbose) {
                 printVerboseOutput(attackDefenseRatio, randomMultiplier, stabMultiplier, typeMultiplier, critMultiplier,weatherMultiplier, baseDamage, effectiveDamage,target);
+                System.out.println();
             }
+
+            if (this.getEffect() != Effect.NONE && Math.random() < this.getEffectChance()) {
+                System.out.println();
+                this.getEffect().apply(user, target, verbose);
+            }
+    
+            
         }
     }
 
+/**
+ * Calculates the base damage of a physical move.
+ *
+ * @param user The Pokemon that is using the move.
+ * @param attackDefenseRatio The ratio of the user's Attack stat to the target's Defense stat.
+ * @return The base damage of the move.
+ *
+ * This method calculates the base damage of a physical move using the following formula:
+ * (((((user's level * 2) / 5) + 2) * move's power * attack/defense ratio) / 50) + 2
+ * This formula is based on the one used in the Pokemon games.
+ */
 private double calculateBaseDamage(Pokemon user, double attackDefenseRatio) {
     return (((((user.level * 2) / 5) + 2) * this.getPower() * attackDefenseRatio) / 50) + 2;
 }
 
+/**
+ * Prints a message about the effectiveness of a move and whether it was a critical hit.
+ *
+ * @param crit The critical hit multiplier. If this is 1.5, a message about a critical hit will be printed.
+ * @param message A message about the effectiveness of the move.
+ *
+ * This method first checks if the move was a critical hit by checking if the crit parameter is 1.5.
+ * If it was a critical hit, it prints a message about this.
+ * It then prints the message about the effectiveness of the move.
+ */
 private void printEffectivenessAndCrit(double crit, String message) {
     if (crit == 1.5) {
         System.out.println("Critical Hit!");
@@ -70,6 +148,21 @@ private void printEffectivenessAndCrit(double crit, String message) {
     System.out.println(message);
 }
 
+/**
+ * Prints detailed information about the execution of a move.
+ *
+ * @param attackDefenseRatio The ratio of the user's Attack stat to the target's Defense stat.
+ * @param randomMultiplier The random multiplier that was applied to the damage.
+ * @param stabMultiplier The STAB (Same-Type Attack Bonus) multiplier that was applied to the damage.
+ * @param typeMultiplier The type multiplier that was applied to the damage.
+ * @param critMultiplier The critical hit multiplier that was applied to the damage.
+ * @param weatherMultiplier The weather multiplier that was applied to the damage.
+ * @param baseDamage The base damage of the move.
+ * @param effectiveDamage The effective damage of the move, after all multipliers were applied.
+ * @param defender The Pokemon that the move was used on.
+ *
+ * This method prints detailed information about the execution of a move, including the attack/defense ratio, the various multipliers that were applied to the damage, the base damage, the effective damage, and the types of the user and the defender.
+ */
 private void printVerboseOutput(double attackDefenseRatio, double randomMultiplier, double stabMultiplier, double typeMultiplier, double critMultiplier, double weatherMultiplier, double baseDamage, double effectiveDamage, Pokemon defender) {
     String colorReset = "\u001B[0m";
     Type attack = this.getType();

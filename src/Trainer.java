@@ -116,12 +116,17 @@ public class Trainer {
         return battleReadyPokemons.size();
     }
 
-    public void printTrainerInfo() {
+    public void printTrainerInfo(boolean verbose) {
         System.out.println("Trainer Name: " + this.getName());
         System.out.println("Team:");
         for (Pokemon pokemon : team) {
             if (pokemon != null) {
+                System.out.println();
+                if (verbose) {
+                    pokemon.printInfo();
+                } else {
                 System.out.println(" - " + pokemon.getName() + ", HP: " + pokemon.getHp() + ", Type: " + pokemon.getPrimaryType() + (pokemon.getSecondaryType() != null ? "/" + pokemon.getSecondaryType() : ""));
+                }
             }
         }
     }
@@ -139,6 +144,20 @@ public class Trainer {
                 healPokemon(pokemon);
             }
         }
+    }
+
+    public void sleep(int hours){
+        if (hours > 8){
+            hours = 8;
+        }
+        System.out.println(this.name + " is sleeping...");
+        delay(hours * 1000);
+        System.out.println(this.name + " woke up!");
+        if (hours == 8){
+            System.out.println(this.name + " is fully rested!");
+            healTeam();
+        }
+        
     }
 
     public int battle(Trainer opponent, boolean verbose) {
@@ -195,6 +214,7 @@ public class Trainer {
 
             // Determine which Pokemon attacks first
             if (pokemon_1.getSpeed() >= pokemon_2.getSpeed()) {
+                System.out.println(pokemon_1.getName() + " attacks first!");
                 pokemon_2 = attack(pokemon_1, pokemon_2, pokemon_1_move, weather, verbose, opponent);
                 delay(2000);
                 if (pokemon_2 == initialPokemon2) {
@@ -202,6 +222,7 @@ public class Trainer {
                     pokemon_1 = attack(pokemon_2, pokemon_1, pokemon_2_move, weather, verbose, this);
                 }
             } else {
+                System.out.println(pokemon_2.getName() + " attacks first!");
                 pokemon_1 = attack(pokemon_2, pokemon_1, pokemon_2_move, weather, verbose, this);
                 delay(2000);
                 if (pokemon_1 == initialPokemon1) {
@@ -215,15 +236,15 @@ public class Trainer {
             // Apply weather and status effects at the end of the turn
             if(pokemon_1 != null && pokemon_2 != null){
                 weather = weather.applyEffect(pokemon_1, pokemon_2,verbose);
-                pokemon_1.resetAfterDuration();
-                pokemon_2.resetAfterDuration();
+                pokemon_1.resetAfterDuration(verbose);
+                pokemon_2.resetAfterDuration(verbose);
             }
             // Check if a Pokemon fainted due to weather or status effects
             if (pokemon_1 != null && pokemon_1.getHp() <= 0) {
-                pokemon_1 = this.handleFainting(pokemon_1);
+                pokemon_1 = this.handleFainting(pokemon_1,pokemon_2);
             }
             if (pokemon_2 != null && pokemon_2.getHp() <= 0) {
-                pokemon_2 = opponent.handleFainting(pokemon_2);
+                pokemon_2 = opponent.handleFainting(pokemon_2,pokemon_1);
             }
             if (pokemon_1 == null) {
                     System.out.println(opponent.getTitle() + " " + opponent.getName() + " wins the battle!");
@@ -266,14 +287,13 @@ public class Trainer {
     }
     
     private Pokemon attack(Pokemon attacker, Pokemon defender, int move, Weather weather, boolean verbose, Trainer trainer) {
-        System.out.println(attacker.getName() + " attacks first!");
         attacker.getMoves()[move].use(attacker, defender, weather, verbose);
         attacker.getMoves()[move].setAP(attacker.getMoves()[move].getAP() - 1);
         if (!verbose) {
             System.out.println(attacker.getName() + " used " + attacker.getMoves()[move].getName());
         }
         if (defender.getHp() <= 0) {
-            defender = trainer.handleFainting(defender);
+            defender = trainer.handleFainting(defender,attacker);
         }
         return defender;
     }
@@ -291,14 +311,15 @@ public class Trainer {
         } else {
             colorCode = "\u001B[31m"; // Red
         }
-        System.out.println(p1.getName() + " Lvl."+p1.getLevel()+" : " + colorCode + p1.getHp() + "HP / " + p1.getMaxHp() + "HP\u001B[0m");
+        System.out.println(p1.getName() + " Lvl."+p1.getLevel()+" : " + colorCode + p1.getHp() + "HP / " + p1.getMaxHp() + "HP\u001B[0m "+p1.getStatus().getTag());
     }
 
-    private Pokemon handleFainting(Pokemon pokemon) {
-        System.out.println(pokemon.getName() + " fainted");
+    private Pokemon handleFainting(Pokemon fainting, Pokemon attacker) {
+        System.out.println(fainting.getName() + " fainted");
         playSFX("sounds\\In-Battle_Faint_No_Health.mp3.wav");
         delay(1000);
-        
+        int exp = (int) 1.5 * 250 * fainting.getLevel();
+        attacker.addEXP(exp);
         Pokemon battleReadyPokemon = getRandomBattleReadyPokemon();
         if (battleReadyPokemon != null) {
             System.out.println("Trainer " + this.name + " sends out " + battleReadyPokemon.getName() + "!");

@@ -31,6 +31,7 @@ public enum Weather {
                 applyWeatherDamage(pokemon2,verbose);
                 break;
             case CLEAR:
+                break;
             case SUNNY:
                 System.out.println("The sunlight is strong!");
             case RAIN:

@@ -8,8 +8,8 @@ public abstract class Move {
     private int accuracy;
     private int attackPoints;
     private int maxAttackPoints; 
-    private StatusEffect effect;
-    private float effectChance;
+    private Effect effect;
+    private double effectChance;
 
     // Constructor
     public Move(String name, Type type, int power, int accuracy, int maxAttackPoints) {
@@ -19,9 +19,11 @@ public abstract class Move {
         this.accuracy = accuracy;
         this.attackPoints = maxAttackPoints;
         this.maxAttackPoints = attackPoints;
+        this.effect = Effect.NONE;
+        this.effectChance = 0.0;
     }
 
-    public Move(String name, Type type, int power, int accuracy, int maxAttackPoints, StatusEffect effect, float effectChance) {
+    public Move(String name, Type type, int power, int accuracy, int maxAttackPoints, Effect effect, double effectChance) {
         this.name = name;
         this.type = type;
         this.power = power;
@@ -112,15 +114,15 @@ public abstract class Move {
         this.attackPoints = attackPoints;
     }
 
-    public StatusEffect getEffect() {
+    public Effect getEffect() {
         return this.effect;
     }
 
-    public void setEffect(StatusEffect effect) {
+    public void setEffect(Effect effect) {
         this.effect = effect;
     }   
 
-    public float getEffectChance() {
+    public double getEffectChance() {
         return this.effectChance;
     }
 
@@ -134,6 +136,11 @@ public abstract class Move {
 
     public void setMaxAP(int maxAttackPoints) {
         this.maxAttackPoints = maxAttackPoints;
+    }
+
+    public double calculateConfusionDamage(Pokemon user) {
+        double ad_ratio = (double) user.getAttack() / (double) user.getDefense();
+        return (((((user.getLevel() * 2) / 5) + 2) * 40 * ad_ratio) / 50) + 2;
     }
 
     public void hitSFX() {
