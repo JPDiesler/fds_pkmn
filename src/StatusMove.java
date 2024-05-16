@@ -5,11 +5,6 @@ public class StatusMove extends Move{
     }
 
     @Override
-    public void use(Pokemon user, Pokemon[] targets, Weather weather){
-        
-    }
-
-    @Override
     public void use(Pokemon user, Pokemon target, Weather weather){
         
     }
