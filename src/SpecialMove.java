@@ -74,6 +74,7 @@ public class SpecialMove extends Move {
      */
     @Override
     public void use(Pokemon user, Pokemon target, Weather weather, boolean verbose) {
+        this.setAP(this.getAP() - 1);
         StatusEffect userStatus = user.getStatus();
         if (userStatus == StatusEffect.PARALYSIS || userStatus == StatusEffect.FREEZE
                 || userStatus == StatusEffect.SLEEP) {

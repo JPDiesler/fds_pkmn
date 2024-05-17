@@ -1,4 +1,5 @@
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -11,6 +12,7 @@ public class Trainer {
     private String name;
     private String title;
     private Pokemon[] team;
+    private List<Pokemon> pc;
 
     private Clip clip;
 
@@ -64,6 +66,8 @@ public class Trainer {
                 223, 256, 211, GyaradosMoves);
 
         this.team = new Pokemon[] { Infernape, Garchomp, Luxray, Staraptor, Sceptile, Gyarados };
+        this.pc = new ArrayList<>();
+        this.pc.addAll(Arrays.asList(team));
     }
 
     /**
@@ -86,6 +90,9 @@ public class Trainer {
         this.name = name;
         this.title = title;
         this.team = team;
+        this.pc = new ArrayList<>();
+        this.pc.addAll(Arrays.asList(team));
+
     }
 
     // Methods
@@ -158,6 +165,52 @@ public class Trainer {
     }
 
     /**
+     * Attempts to catch a wild Pokemon from the provided list of available Pokemon.
+     * The method simulates a Pokemon battle, where the trainer has a 30% chance to
+     * catch the Pokemon.
+     * If the Pokemon is caught and the trainer's team has less than 5 Pokemon, the
+     * new Pokemon is added to the team.
+     * If the team is full, the new Pokemon is transferred to the trainer's PC.
+     *
+     * @param availablePokemon An array of Pokemon that can be encountered.
+     */
+    public void catchWildPokemon(Pokemon[] availablePokemon) {
+        final int max = 10;
+        int randomIndex = (int) (Math.random() * availablePokemon.length);
+        Pokemon pkmn = availablePokemon[randomIndex];
+        playSoundLoop("sounds\\battle\\Pokemon Wild Battle! Gen4.wav", "00:19.541", "01:11.733");
+        System.out.println("A wild " + pkmn.getName() + " appeared!");
+        int n = 0;
+        while (n < max) {
+            System.out.println(this.getName() + " throws a Pokeball...");
+            boolean caught = Math.random() < 0.3;
+            delay(2000);
+            if (caught) {
+                System.out.println("Gotcha! " + pkmn.getName() + " was caught!");
+                break;
+            } else {
+                System.out.println(pkmn.getName() + " broke free!");
+                delay(2000);
+                n++;
+            }
+        }
+        clip.stop();
+        if (n == max) {
+            System.out.println("Oh no! " + pkmn.getName() + " ran away!");
+        } else if (this.getTeam().length <= 5) {
+            System.out.println("Congratulations! " + pkmn.getName() + " was added to your team!");
+            playSFX("sounds\\battle\\Victory Against Wild Pokémon!.wav");
+            Pokemon[] newTeam = Arrays.copyOf(this.getTeam(), this.getTeam().length + 1);
+            newTeam[newTeam.length - 1] = pkmn;
+            this.setTeam(newTeam);
+        } else {
+            System.out.println("Congratulations! " + pkmn.getName() + " was added transferred to your PC!");
+            playSFX("sounds\\battle\\Victory Against Wild Pokémon!.wav");
+            this.pc.add(pkmn);
+        }
+    }
+
+    /**
      * Initiates a battle between this trainer and an opponent.
      * 
      * @param opponent The opposing trainer.
@@ -209,11 +262,9 @@ public class Trainer {
         int turn = 1;
         Pokemon pokemon_1 = this.team[0];
         Pokemon pokemon_2 = opponent.team[0];
-        System.out.println("Trainer " + this.name + " sends out " + pokemon_1.getName());
-        pokemon_1.depoly(verbose);
+        pokemon_1.depoly(this, verbose);
         delay(500);
-        System.out.println("Trainer " + opponent.getName() + " sends out " + pokemon_2.getName());
-        pokemon_2.depoly(verbose);
+        pokemon_2.depoly(opponent, verbose);
 
         while (true) {
             System.out.println("\n" + "-".repeat(35) + " Turn " + turn + " " + "-".repeat(35) + "\n");
@@ -267,12 +318,16 @@ public class Trainer {
             if (pokemon_1 == null) {
                 System.out.println(opponent.getTitle() + " " + opponent.getName() + " wins the battle!");
                 clip.stop();
+                resetPokemonStats(this.team);
+                resetPokemonStats(opponent.team);
                 return -1; // Opponent wins
             }
             if (pokemon_2 == null) {
                 System.out.println(this.title + " " + this.name + " wins the battle!");
                 clip.stop();
                 playSFX("sounds\\battle\\Victory Against Trainer!.wav");
+                resetPokemonStats(this.team);
+                resetPokemonStats(opponent.team);
                 return 1; // This trainer wins
             }
             turn++;
@@ -340,7 +395,6 @@ public class Trainer {
     private Pokemon attack(Pokemon attacker, Pokemon defender, int move, Weather weather, boolean verbose,
             Trainer trainer) {
         attacker.getMoves()[move].use(attacker, defender, weather, verbose);
-        attacker.getMoves()[move].setAP(attacker.getMoves()[move].getAP() - 1);
         if (!verbose) {
             System.out.println(attacker.getName() + " used " + attacker.getMoves()[move].getName());
         }
@@ -389,7 +443,7 @@ public class Trainer {
         attacker.addEXP(exp);
         Pokemon battleReadyPokemon = getRandomBattleReadyPokemon();
         if (battleReadyPokemon != null) {
-            battleReadyPokemon.depoly(verbose);
+            battleReadyPokemon.depoly(this, verbose);
         }
         return battleReadyPokemon;
     }
@@ -486,6 +540,12 @@ public class Trainer {
             Thread.sleep(delay);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void resetPokemonStats(Pokemon[] pkmns) {
+        for (Pokemon pkmn : pkmns) {
+            pkmn.calculateStats();
         }
     }
 

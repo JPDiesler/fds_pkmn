@@ -171,7 +171,7 @@ public class Pokemon {
     /**
      * Calculates all the stats of the Pokemon.
      */
-    private void calculateStats() {
+    public void calculateStats() {
         this.attack = calculateStat(this.attack_AS);
         this.defense = calculateStat(this.defense_AS);
         this.special_attack = calculateStat(this.special_attack_AS);
@@ -198,7 +198,8 @@ public class Pokemon {
         int damage = (int) (status.getDamage() * this.max_hp);
         this.setHp(this.current_hp - damage);
         if (this.status == StatusEffect.BURN || this.status == StatusEffect.POISON) {
-            System.out.println(name + " took damage from " + status + ".");
+            playSFX("sounds\\hit\\Hit_Not_Very_Effective.wav");
+            System.out.println(name + " took damage from being " + status + ".");
             if (verbose) {
                 System.out.println(status.getTag() + " damage: " + damage);
             }
@@ -326,15 +327,18 @@ public class Pokemon {
     }
 
     /**
-     * Deploys the Pokemon.
+     * Deploys the Pokemon into battle.
      *
-     * @param verbose Whether to print verbose output.
+     * @param trainer The Trainer who is deploying the Pokemon.
+     * @param verbose Whether to print verbose output. If true, the Pokemon's type
+     *                tags are also printed.
      */
-    public void depoly(boolean verbose) {
+    public void depoly(Trainer trainer, boolean verbose) {
         if (verbose) {
             Type[] typing = this.getTyping();
             if (typing[1] != null) {
-                System.out.println("Trainer " + this.name + " sends out " + this.getName() + "! " + typing[0].getTag()
+                System.out.println(trainer.getTitle() + " " + trainer.getName() + " sends out " + this.getName() + "! "
+                        + typing[0].getTag()
                         + " / " + typing[1].getTag());
             } else {
                 System.out.println("Trainer " + this.name + " sends out " + this.getName() + "! " + typing[0].getTag());
@@ -411,7 +415,7 @@ public class Pokemon {
                 + (this.special_attack - oldSpecialAttack) + ")");
         System.out.println("Special Defense: " + oldSpecialDefense + " -> " + this.special_defense + " (+"
                 + (this.special_defense - oldSpecialDefense) + ")");
-        System.out.println("Speed: " + oldSpeed + " -> " + this.speed + " (+" + (this.speed - oldSpeed) + ")");
+        System.out.println("Speed: " + oldSpeed + " -> " + this.speed + " (+" + (this.speed - oldSpeed) + ")\n");
     }
 
     public StatusEffect getStatus() {
