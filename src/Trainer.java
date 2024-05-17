@@ -14,6 +14,10 @@ public class Trainer {
 
     private Clip clip;
 
+    /**
+     * Default constructor for the Trainer class.
+     * Initializes a Trainer with a predefined set of Pokemon and moves.
+     */
     public Trainer() {
         this.id = 0;
         this.name = "Red";
@@ -62,66 +66,36 @@ public class Trainer {
         this.team = new Pokemon[] { Infernape, Garchomp, Luxray, Staraptor, Sceptile, Gyarados };
     }
 
+    /**
+     * Constructor for the Trainer class.
+     * Initializes a Trainer with the provided id, name, title, and team of Pokemon.
+     * The team size must be between 1 and 6, inclusive.
+     *
+     * @param id    The unique identifier for the Trainer.
+     * @param name  The name of the Trainer.
+     * @param title The title of the Trainer.
+     * @param team  The team of Pokemon that the Trainer has. Must contain between 1
+     *              and 6 Pokemon.
+     * @throws IllegalArgumentException If the team size is not between 1 and 6.
+     */
     public Trainer(int id, String name, String title, Pokemon[] team) {
-        this.id = id;
-        this.name = name;
-        this.title = title;
-        this.team = team;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTitle() {
-        return this.title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Pokemon[] getTeam() {
-        return team;
-    }
-
-    public void setTeam(Pokemon[] team) {
-        this.team = team;
-    }
-
-    private Pokemon getRandomBattleReadyPokemon() {
-        List<Pokemon> battleReadyPokemons = Arrays.stream(team)
-                .filter(pokemon -> pokemon.getHp() > 0)
-                .collect(Collectors.toList());
-
-        if (battleReadyPokemons.isEmpty()) {
-            System.out.println(this.getName() + " has no battle-ready Pokemon left!");
-            return null;
+        if (team.length < 1 || team.length > 6) {
+            throw new IllegalArgumentException("Team size must be between 1 and 6.");
         }
-
-        int index = (int) (Math.random() * battleReadyPokemons.size());
-        return battleReadyPokemons.get(index);
+        this.id = id;
+        this.name = name;
+        this.title = title;
+        this.team = team;
     }
 
-    private int getRandomBattleReadyPokemonCount() {
-        List<Pokemon> battleReadyPokemons = Arrays.stream(team)
-                .filter(pokemon -> pokemon.getHp() > 0)
-                .collect(Collectors.toList());
-        return battleReadyPokemons.size();
-    }
+    // Methods
 
+    /**
+     * Prints the trainer's information.
+     * 
+     * @param verbose If true, prints detailed information about each Pokemon in the
+     *                trainer's team.
+     */
     public void printTrainerInfo(boolean verbose) {
         System.out.println("Trainer Name: " + this.getName());
         System.out.println("Team:");
@@ -139,13 +113,22 @@ public class Trainer {
         }
     }
 
-    public void healPokemon(Pokemon pokemon) {
-        pokemon.setHp(pokemon.getMaxHp());
-        for (Move move : pokemon.getMoves()) {
+    /**
+     * Heals a given Pokemon by setting its HP to its maximum HP and resetting the
+     * AP of all its moves.
+     * 
+     * @param pkmn The Pokemon to heal.
+     */
+    public void healPokemon(Pokemon pkmn) {
+        pkmn.setHp(pkmn.getMaxHp());
+        for (Move move : pkmn.getMoves()) {
             move.setAP(move.getMaxAP());
         }
     }
 
+    /**
+     * Heals all Pokemon in the trainer's team.
+     */
     public void healTeam() {
         for (Pokemon pokemon : team) {
             if (pokemon != null) {
@@ -154,6 +137,12 @@ public class Trainer {
         }
     }
 
+    /**
+     * Makes the trainer sleep for a given number of hours. If the trainer sleeps
+     * for 8 hours, they are fully rested and their team is healed.
+     * 
+     * @param hours The number of hours the trainer should sleep.
+     */
     public void sleep(int hours) {
         if (hours > 8) {
             hours = 8;
@@ -168,6 +157,14 @@ public class Trainer {
 
     }
 
+    /**
+     * Initiates a battle between this trainer and an opponent.
+     * 
+     * @param opponent The opposing trainer.
+     * @param verbose  If true, prints detailed information about each turn in the
+     *                 battle.
+     * @return 1 if this trainer wins the battle, -1 if the opponent wins.
+     */
     public int battle(Trainer opponent, boolean verbose) {
         System.out.println("-".repeat(35) + " Pokemon Battle Start " + "-".repeat(35));
         System.out.println();
@@ -282,31 +279,64 @@ public class Trainer {
         }
     }
 
-    private int getMove(Pokemon pokemon) {
+    /**
+     * Selects a move for a given Pokemon.
+     * 
+     * @param pkmn The Pokemon to select a move for.
+     * @return The index of the selected move.
+     */
+    private int getMove(Pokemon pkmn) {
         int move;
         do {
             move = (int) (Math.random() * 4);
-        } while (pokemon.getMoves()[move].getAP() <= 0);
+        } while (pkmn.getMoves()[move].getAP() <= 0);
         return move;
     }
 
-    private void delay(int min, int max) {
-        try {
-            int delay = min + (int) (Math.random() * ((max - min) + 1));
-            Thread.sleep(delay);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    /**
+     * Selects a random Pokemon from the trainer's team that is ready for battle
+     * (i.e., has HP greater than 0).
+     * 
+     * @return The selected Pokemon, or null if no Pokemon are ready for battle.
+     */
+    private Pokemon getRandomBattleReadyPokemon() {
+        List<Pokemon> battleReadyPokemons = Arrays.stream(team)
+                .filter(pokemon -> pokemon.getHp() > 0)
+                .collect(Collectors.toList());
+
+        if (battleReadyPokemons.isEmpty()) {
+            System.out.println(this.getName() + " has no battle-ready Pokemon left!");
+            return null;
         }
+
+        int index = (int) (Math.random() * battleReadyPokemons.size());
+        return battleReadyPokemons.get(index);
     }
 
-    private void delay(int delay) {
-        try {
-            Thread.sleep(delay);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    /**
+     * Counts the number of Pokemon in the trainer's team that are ready for battle.
+     * 
+     * @return The number of battle-ready Pokemon.
+     */
+    private int getRandomBattleReadyPokemonCount() {
+        List<Pokemon> battleReadyPokemons = Arrays.stream(team)
+                .filter(pokemon -> pokemon.getHp() > 0)
+                .collect(Collectors.toList());
+        return battleReadyPokemons.size();
     }
 
+    /**
+     * Makes a Pokemon attack another Pokemon.
+     * 
+     * @param attacker The attacking Pokemon.
+     * @param defender The defending Pokemon.
+     * @param move     The index of the move the attacker should use.
+     * @param weather  The current weather, which can affect the attack.
+     * @param verbose  If true, prints detailed information about the attack.
+     * @param trainer  The trainer of the defending Pokemon.
+     * @return The defending Pokemon, or a different Pokemon from the defender's
+     *         team if the defender faints.
+     */
     private Pokemon attack(Pokemon attacker, Pokemon defender, int move, Weather weather, boolean verbose,
             Trainer trainer) {
         attacker.getMoves()[move].use(attacker, defender, weather, verbose);
@@ -320,11 +350,16 @@ public class Trainer {
         return defender;
     }
 
-    private void printHealth(Pokemon p1) {
+    /**
+     * Prints the health of a given Pokemon.
+     * 
+     * @param pkmn The Pokemon whose health should be printed.
+     */
+    private void printHealth(Pokemon pkmn) {
         int r = this.getRandomBattleReadyPokemonCount();
         int f = this.team.length - r;
         System.out.println("Trainer " + this.getName() + " " + "*".repeat(r) + "-".repeat(f));
-        double hpPercentage = (double) p1.getHp() / p1.getMaxHp() * 100;
+        double hpPercentage = (double) pkmn.getHp() / pkmn.getMaxHp() * 100;
         String colorCode;
         if (hpPercentage >= 50) {
             colorCode = "\u001B[32m"; // Green
@@ -333,10 +368,19 @@ public class Trainer {
         } else {
             colorCode = "\u001B[31m"; // Red
         }
-        System.out.println(p1.getName() + " Lvl." + p1.getLevel() + " : " + colorCode + p1.getHp() + "HP / "
-                + p1.getMaxHp() + "HP\u001B[0m " + p1.getStatus().getTag());
+        System.out.println(pkmn.getName() + " Lvl." + pkmn.getLevel() + " : " + colorCode + pkmn.getHp() + "HP / "
+                + pkmn.getMaxHp() + "HP\u001B[0m " + pkmn.getStatus().getTag());
     }
 
+    /**
+     * Handles a Pokemon fainting during a battle.
+     * 
+     * @param fainting The Pokemon that fainted.
+     * @param attacker The Pokemon that caused the fainting.
+     * @param verbose  If true, prints detailed information about the fainting.
+     * @return A different Pokemon from the fainting Pokemon's team that is ready
+     *         for battle, or null if no such Pokemon exist.
+     */
     private Pokemon handleFainting(Pokemon fainting, Pokemon attacker, boolean verbose) {
         System.out.println(fainting.getName() + " fainted");
         playSFX("sounds\\In-Battle_Faint_No_Health.mp3.wav");
@@ -350,6 +394,13 @@ public class Trainer {
         return battleReadyPokemon;
     }
 
+    /**
+     * Plays a sound loop from a given file.
+     * 
+     * @param path               The path to the sound file.
+     * @param loopStartTimestamp The timestamp at which the loop should start.
+     * @param loopEndTimestamp   The timestamp at which the loop should end.
+     */
     private void playSoundLoop(String path, String loopStartTimestamp, String loopEndTimestamp) {
         clip = null;
         try {
@@ -371,6 +422,13 @@ public class Trainer {
         }
     }
 
+    /**
+     * Converts a timestamp to a number of frames.
+     * 
+     * @param timestamp The timestamp to convert.
+     * @param frameRate The frame rate to use for the conversion.
+     * @return The number of frames corresponding to the timestamp.
+     */
     private int timestampToFrames(String timestamp, float frameRate) {
         String[] parts = timestamp.split(":");
         float minutes = Float.parseFloat(parts[0]);
@@ -378,6 +436,11 @@ public class Trainer {
         return (int) ((minutes * 60 + seconds) * frameRate);
     }
 
+    /**
+     * Plays a sound effect from a given file.
+     * 
+     * @param path The path to the sound file.
+     */
     public void playSFX(String path) {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
@@ -396,4 +459,78 @@ public class Trainer {
             ex.printStackTrace();
         }
     }
+
+    /**
+     * Delays execution for a random amount of time between a minimum and maximum
+     * value.
+     * 
+     * @param min The minimum delay in milliseconds.
+     * @param max The maximum delay in milliseconds.
+     */
+    private void delay(int min, int max) {
+        try {
+            int delay = min + (int) (Math.random() * ((max - min) + 1));
+            Thread.sleep(delay);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Delays execution for a given amount of time.
+     * 
+     * @param delay The delay in milliseconds.
+     */
+    private void delay(int delay) {
+        try {
+            Thread.sleep(delay);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Getters & Setters
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Pokemon[] getTeam() {
+        return team;
+    }
+
+    /**
+     * Sets the team of Pokemon for the Trainer.
+     * The team size must be between 1 and 6.
+     *
+     * @param team The team of Pokemon.
+     * @throws IllegalArgumentException If the team size is not between 1 and 6.
+     */
+    public void setTeam(Pokemon[] team) {
+        if (team.length < 1 || team.length > 6) {
+            throw new IllegalArgumentException("Team size must be between 1 and 6.");
+        }
+        this.team = team;
+    }
+
 }

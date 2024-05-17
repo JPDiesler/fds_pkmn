@@ -4,6 +4,11 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Enum representing the types of Pokemon.
+ * Each type has a list of types it is immune to, ineffective against, and
+ * effective against.
+ */
 public enum Type {
     NORMAL(Arrays.asList(), Arrays.asList("ROCK", "STEEL"), Arrays.asList("GHOST")),
     FIRE(Arrays.asList(), Arrays.asList("FIRE", "WATER", "ROCK", "DRAGON"),
@@ -31,6 +36,9 @@ public enum Type {
             Arrays.asList("ICE", "ROCK", "FAIRY")),
     FAIRY(Arrays.asList(), Arrays.asList("FIRE", "POISON", "STEEL"), Arrays.asList("FIGHTING", "DRAGON", "DARK"));
 
+    /**
+     * Map to convert string values to their corresponding Type.
+     */
     private static final Map<String, Type> stringToType = Arrays.stream(Type.values())
             .collect(Collectors.toMap(Type::name, Function.identity()));
 
@@ -42,12 +50,24 @@ public enum Type {
     private List<Type> ineffective;
     private List<Type> effective;
 
+    /**
+     * Constructor for the Type enum.
+     *
+     * @param immuneStrings      The list of types this type is immune to.
+     * @param ineffectiveStrings The list of types this type is ineffective against.
+     * @param effectiveStrings   The list of types this type is effective against.
+     */
     Type(List<String> immuneStrings, List<String> ineffectiveStrings, List<String> effectiveStrings) {
         this.immuneStrings = immuneStrings;
         this.ineffectiveStrings = ineffectiveStrings;
         this.effectiveStrings = effectiveStrings;
     }
 
+    /**
+     * Returns the list of types this type is immune to.
+     *
+     * @return The list of types this type is immune to.
+     */
     public List<Type> getImmune() {
         if (immune == null) {
             immune = immuneStrings.stream().map(stringToType::get).collect(Collectors.toList());
@@ -55,6 +75,11 @@ public enum Type {
         return immune;
     }
 
+    /**
+     * Returns the list of types this type is ineffective against.
+     *
+     * @return The list of types this type is ineffective against.
+     */
     public List<Type> getIneffective() {
         if (ineffective == null) {
             ineffective = ineffectiveStrings.stream().map(stringToType::get).collect(Collectors.toList());
@@ -62,6 +87,11 @@ public enum Type {
         return ineffective;
     }
 
+    /**
+     * Returns the list of types this type is effective against.
+     *
+     * @return The list of types this type is effective against.
+     */
     public List<Type> getEffective() {
         if (effective == null) {
             effective = effectiveStrings.stream().map(stringToType::get).collect(Collectors.toList());
@@ -69,6 +99,11 @@ public enum Type {
         return effective;
     }
 
+    /**
+     * Returns the color associated with this type.
+     *
+     * @return The color associated with this type.
+     */
     public String getColor() {
         switch (this) {
             case NORMAL:
@@ -112,6 +147,11 @@ public enum Type {
         }
     }
 
+    /**
+     * Returns the tag associated with this type.
+     *
+     * @return The tag associated with this type.
+     */
     public String getTag() {
         switch (this) {
             case NORMAL:

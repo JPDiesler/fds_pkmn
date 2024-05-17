@@ -9,6 +9,13 @@ public enum Effect {
     LOWERATTACKS,
     LOWERDEFENCES;
 
+    /**
+     * Applies the effect to the target Pokemon.
+     *
+     * @param user    The Pokemon using the effect.
+     * @param target  The Pokemon that the effect is being applied to.
+     * @param verbose If true, additional information will be printed.
+     */
     public void apply(Pokemon user, Pokemon target, boolean verbose) {
         switch (this) {
             case CONFUSE:
@@ -60,6 +67,11 @@ public enum Effect {
         }
     }
 
+    /**
+     * Delays the execution of the program for a specified amount of time.
+     *
+     * @param delay The amount of time to delay in milliseconds.
+     */
     private void delay(int delay) {
         try {
             Thread.sleep(delay);

@@ -2,10 +2,38 @@ import java.util.Locale;
 
 public class StatusMove extends Move {
 
+    /**
+     * Default constructor for the StatusMove class.
+     * Creates a new instance of StatusMove with predefined parameters.
+     * The move created is "Confuse Ray" with type GHOST, power 0, accuracy 100,
+     * attack points 10, effect CONFUSE, and effect chance 1.
+     */
+    public StatusMove() {
+        super("Confuse Ray", Type.GHOST, 0, 100, 10, Effect.CONFUSE, 1);
+    }
+
+    /**
+     * Constructor for the StatusMove class.
+     * Creates a new instance of StatusMove with the given parameters.
+     *
+     * @param name         The name of the move.
+     * @param type         The type of the move.
+     * @param accuracy     The accuracy of the move.
+     * @param effect       The effect of the move.
+     * @param attackPoints The maximum number of attack points for the move.
+     */
     public StatusMove(String name, Type type, int accuracy, Effect effect, int attackPoints) {
         super(name, type, 0, accuracy, attackPoints, effect, 1);
     }
 
+    /**
+     * Uses the move on a target Pokemon.
+     *
+     * @param user    The Pokemon using the move.
+     * @param target  The Pokemon being targeted by the move.
+     * @param weather The current weather.
+     * @param verbose Whether to print verbose output.
+     */
     @Override
     public void use(Pokemon user, Pokemon target, Weather weather, boolean verbose) {
         StatusEffect userStatus = user.getStatus();
@@ -72,6 +100,14 @@ public class StatusMove extends Move {
         }
     }
 
+    /**
+     * Prints a message about the effectiveness of a move and whether it was a
+     * critical hit.
+     *
+     * @param crit    The critical hit multiplier. If it's 1.5, a message about a
+     *                critical hit is printed.
+     * @param message The message about the effectiveness of the move.
+     */
     private void printEffectivenessAndCrit(double crit, String message) {
         if (crit == 1.5) {
             System.out.println("Critical Hit!");
@@ -79,6 +115,12 @@ public class StatusMove extends Move {
         System.out.println(message);
     }
 
+    /**
+     * Prints verbose output about the calculation of a move's damage.
+     *
+     * @param typeMultiplier The type effectiveness multiplier.
+     * @param defender       The Pokemon defending against the move.
+     */
     private void printVerboseOutput(double typeMultiplier, Pokemon defender) {
         Type attack = this.getType();
         Type defenderPrimary = defender.getPrimaryType();

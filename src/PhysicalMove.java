@@ -1,15 +1,52 @@
 import java.util.Locale;
 
+/**
+ * The PhysicalMove class extends the Move class and represents a physical move
+ * that a Pokemon can use in a battle.
+ * A physical move is a move that uses the user's Attack stat and the target's
+ * Defense stat to calculate damage.
+ * This class provides methods to execute a physical move and calculate its
+ * damage.
+ */
 public class PhysicalMove extends Move {
 
+    /**
+     * Default constructor for the PhysicalMove class.
+     * Creates a new instance of PhysicalMove with predefined parameters.
+     * The move's name is "Close Combat", its type is Fighting, its power is 120,
+     * its accuracy is 100, its attack points are 5, and it has a 100% chance to
+     * lower the users's Defense and Special Defense stats by 1.
+     */
     public PhysicalMove() {
         super("Close Combat", Type.FIGHTING, 120, 100, 5, Effect.LOWERDEFENCES, 1);
     }
 
+    /**
+     * Constructor for the PhysicalMove class.
+     * Creates a new instance of PhysicalMove without an effect.
+     *
+     * @param name         The name of the move.
+     * @param type         The type of the move.
+     * @param power        The power of the move.
+     * @param accuracy     The accuracy of the move.
+     * @param attackPoints The maximum number of attack points for the move.
+     */
     public PhysicalMove(String name, Type type, int power, int accuracy, int attackPoints) {
         super(name, type, power, accuracy, attackPoints);
     }
 
+    /**
+     * Constructor for the PhysicalMove class.
+     * Creates a new instance of PhysicalMove with an effect.
+     *
+     * @param name         The name of the move.
+     * @param type         The type of the move.
+     * @param power        The power of the move.
+     * @param accuracy     The accuracy of the move.
+     * @param attackPoints The maximum number of attack points for the move.
+     * @param effect       The effect of the move.
+     * @param effectChance The chance of the effect occurring.
+     */
     public PhysicalMove(String name, Type type, int power, int accuracy, int attackPoints, Effect effect,
             double effectChance) {
         super(name, type, power, accuracy, attackPoints, effect, effectChance);

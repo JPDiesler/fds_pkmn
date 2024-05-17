@@ -1,3 +1,7 @@
+/**
+ * Enum representing the possible status effects a Pokemon can have.
+ * Each status effect has a damage rate and a duration.
+ */
 public enum StatusEffect {
     NONE(0, 0),
     BURN(0.0625, 2),
@@ -10,19 +14,40 @@ public enum StatusEffect {
     private final double damage;
     private final int duration;
 
+    /**
+     * Constructor for the StatusEffect enum.
+     *
+     * @param damage   The damage rate of the status effect.
+     * @param duration The duration of the status effect.
+     */
     StatusEffect(double damage, int duration) {
         this.damage = damage;
         this.duration = duration;
     }
 
+    /**
+     * Gets the damage rate of the status effect.
+     *
+     * @return The damage rate.
+     */
     public double getDamage() {
         return damage;
     }
 
+    /**
+     * Gets the duration of the status effect.
+     *
+     * @return The duration.
+     */
     public int getDuration() {
         return duration;
     }
 
+    /**
+     * Gets the color associated with the status effect.
+     *
+     * @return The color.
+     */
     private String getColor() {
         switch (this) {
             case BURN:
@@ -42,6 +67,11 @@ public enum StatusEffect {
         }
     }
 
+    /**
+     * Gets the tag associated with the status effect.
+     *
+     * @return The tag.
+     */
     public String getTag() {
         switch (this) {
             case BURN:
@@ -62,6 +92,11 @@ public enum StatusEffect {
 
     }
 
+    /**
+     * Converts the status effect to a string.
+     *
+     * @return The string representation of the status effect.
+     */
     public String toString() {
         switch (this) {
             case BURN:
