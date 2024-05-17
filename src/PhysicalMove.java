@@ -167,6 +167,90 @@ public class PhysicalMove extends Move {
         }
     }
 
+    public void use(Pokemon user, Pokemon target, Weather weather, boolean verbose, boolean hit, boolean paralized,
+            boolean confused, boolean crit, boolean applyEffect) {
+        this.setAP(this.getAP() - 1);
+        StatusEffect userStatus = user.getStatus();
+        if (userStatus == StatusEffect.PARALYSIS || userStatus == StatusEffect.FREEZE
+                || userStatus == StatusEffect.SLEEP) {
+            if (userStatus == StatusEffect.PARALYSIS && paralized) {
+                System.out.println(String.format(Locale.US, "%s is paralyzed and can't move!", user.getName()));
+                return;
+            }
+            if (userStatus == StatusEffect.FREEZE) {
+                System.out.println(String.format(Locale.US, "%s is frozen solid!", user.getName()));
+                return;
+            }
+            if (userStatus == StatusEffect.SLEEP) {
+                System.out.println(String.format(Locale.US, "%s is fast asleep!", user.getName()));
+                return;
+            }
+        }
+        if (userStatus == StatusEffect.CONFUSION && confused) {
+            System.out.println(
+                    String.format(Locale.US, "%s is confused and hurt itself in its confusion!", user.getName()));
+            user.setHp((int) (user.getHp() - this.calculateConfusionDamage(user)));
+            if (verbose) {
+                System.out.println("Damage: " + (int) this.calculateConfusionDamage(user));
+            }
+            return;
+        }
+
+        System.out.println(String.format("%s used %s", user.getName(), getName()));
+        if (!hit) {
+            System.out.println(String.format(Locale.US, "%s missed the attack!", user.getName()));
+            return;
+        }
+
+        double randomMultiplier = Math.random() * 0.16 + 0.85;
+        double stabMultiplier = calculateStabMultiplier(user);
+        double typeMultiplier = getMoveEffectiveness(target.getPrimaryType(), target.getSecondaryType(), getType());
+        double weatherMultiplier = weather.getMultiplier(this.getType());
+        double critMultiplier = crit ? 1.5 : 1.0;
+
+        switch (String.valueOf(typeMultiplier)) {
+            case "0.0":
+                System.out.println(String.format("It doesn't affect %s...", target.getName()));
+                break;
+            case "1.0":
+                playMoveSFX();
+                printEffectivenessAndCrit(critMultiplier, "Normal effectiveness.");
+                hitSFX();
+                break;
+            case "2.0":
+                printEffectivenessAndCrit(critMultiplier, "It's super effective!");
+                playMoveSFX();
+                superEffectiveHitSFX();
+                break;
+            default:
+                playMoveSFX();
+                printEffectivenessAndCrit(critMultiplier, "It's not very effective...");
+                notVeryEffectiveHitSFX();
+                break;
+        }
+
+        if (typeMultiplier > 0) {
+            double attackDefenseRatio = (double) user.getAttack() / (double) target.getDefense();
+            double baseDamage = calculateBaseDamage(user, attackDefenseRatio);
+            double effectiveDamage = baseDamage * stabMultiplier * typeMultiplier * randomMultiplier * critMultiplier
+                    * weatherMultiplier;
+
+            target.setHp((int) (target.getHp() - effectiveDamage));
+
+            if (verbose) {
+                printVerboseOutput(attackDefenseRatio, randomMultiplier, stabMultiplier, typeMultiplier, critMultiplier,
+                        weatherMultiplier, baseDamage, effectiveDamage, target);
+                System.out.println();
+            }
+
+            if (this.getEffect() != Effect.NONE && applyEffect) {
+                System.out.println();
+                this.getEffect().apply(user, target, verbose);
+            }
+
+        }
+    }
+
     /**
      * Calculates the base damage of a physical move.
      *

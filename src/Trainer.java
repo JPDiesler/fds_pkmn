@@ -340,10 +340,14 @@ public class Trainer {
      * @param pkmn The Pokemon to select a move for.
      * @return The index of the selected move.
      */
-    private int getMove(Pokemon pkmn) {
+    public int getMove(Pokemon pkmn) {
+        if (Arrays.stream(pkmn.getMoves()).allMatch(move -> move.getAP() <= 0)) {
+            return -1;
+        }
         int move;
+        int l = pkmn.getMoves().length;
         do {
-            move = (int) (Math.random() * 4);
+            move = (int) (Math.random() * l);
         } while (pkmn.getMoves()[move].getAP() <= 0);
         return move;
     }
@@ -440,7 +444,10 @@ public class Trainer {
         playSFX("sounds\\In-Battle_Faint_No_Health.mp3.wav");
         delay(1000);
         int exp = (int) 1.5 * 250 * fainting.getLevel();
-        attacker.addEXP(exp);
+        if (attacker != null) {
+            attacker.addEXP(exp);
+        }
+
         Pokemon battleReadyPokemon = getRandomBattleReadyPokemon();
         if (battleReadyPokemon != null) {
             battleReadyPokemon.depoly(this, verbose);

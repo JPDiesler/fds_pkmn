@@ -70,6 +70,9 @@ public abstract class Move {
      * @return The STAB multiplier.
      */
     protected double calculateStabMultiplier(Pokemon user) {
+        System.out.println(this.getType());
+        System.out.println(user.getPrimaryType());
+        System.out.println(user.getSecondaryType());
         if (this.getType() == user.getPrimaryType() || this.getType() == user.getSecondaryType()) {
             return 1.5;
         } else {
@@ -263,7 +266,7 @@ public abstract class Move {
         return this.effectChance;
     }
 
-    public void setEffectChance(float effectChance) {
+    public void setEffectChance(double effectChance) {
         this.effectChance = effectChance;
     }
 

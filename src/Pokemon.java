@@ -50,12 +50,12 @@ public class Pokemon {
         this.level = 50;
         this.expirience = (int) Math.pow(level, 3);
         this.status = StatusEffect.NONE;
-        this.hp_AS = 269;
-        this.attack_AS = 254;
-        this.defense_AS = 200;
-        this.special_attack_AS = 254;
-        this.special_defense_AS = 200;
-        this.speed_AS = 260;
+        this.hp_AS = 76;
+        this.attack_AS = 104;
+        this.defense_AS = 71;
+        this.special_attack_AS = 104;
+        this.special_defense_AS = 71;
+        this.speed_AS = 108;
         this.moves = new Move[4];
         this.moves[0] = new PhysicalMove("Close Combat", Type.FIGHTING, 120, 100, 5, Effect.LOWERDEFENCES, 1);
         this.moves[1] = new SpecialMove("Blast Burn", Type.FIRE, 150, 90, 5, Effect.BURN, 0.75);
@@ -83,9 +83,14 @@ public class Pokemon {
      * @param special_defense The special defense stat of the Pokemon.
      * @param speed           The speed stat of the Pokemon.
      * @param moves           The moves that the Pokemon knows.
+     * @throws IllegalArgumentException if the moves array
+     *                                  has less than 1 or more than 4 entries.
      */
     public Pokemon(int id, String name, Type primary_type, int level, StatusEffect status, int hp, int attack,
             int defense, int special_attack, int special_defense, int speed, Move[] moves) {
+        if (moves.length < 1 || moves.length > 4) {
+            throw new IllegalArgumentException("Moves array must have between 1 and 4 entries");
+        }
         this.id = id;
         this.name = name;
         this.primary_type = primary_type;
@@ -124,9 +129,14 @@ public class Pokemon {
      * @param special_defense The special defense stat of the Pokemon.
      * @param speed           The speed stat of the Pokemon.
      * @param moves           The moves that the Pokemon knows.
+     * @throws IllegalArgumentException if the moves array
+     *                                  has less than 1 or more than 4 entries.
      */
     public Pokemon(int id, String name, Type primary_type, Type secondary_type, int level, StatusEffect status, int hp,
             int attack, int defense, int special_attack, int special_defense, int speed, Move[] moves) {
+        if (moves.length < 1 || moves.length > 4) {
+            throw new IllegalArgumentException("Moves array must have between 1 and 4 entries");
+        }
         this.id = id;
         this.name = name;
         this.primary_type = primary_type;
@@ -152,7 +162,7 @@ public class Pokemon {
      * Calculates the maximum HP of the Pokemon based on its base HP, IVs, EVs, and
      * level.
      */
-    private void calculateHP() {
+    public void calculateHP() {
         int hp = (int) ((((2.0 * hp_AS + iv + (ev / 4.0)) * level) / 100.0) + level + 10);
         this.max_hp = hp;
     }
@@ -341,10 +351,11 @@ public class Pokemon {
                         + typing[0].getTag()
                         + " / " + typing[1].getTag());
             } else {
-                System.out.println("Trainer " + this.name + " sends out " + this.getName() + "! " + typing[0].getTag());
+                System.out.println(trainer.getTitle() + " " + trainer.getName()
+                        + " sends out " + this.getName() + "! " + typing[0].getTag());
             }
         } else {
-            System.out.println("Trainer " + this.name + " sends out " + this.getName() + "!");
+            System.out.println(trainer.getTitle() + " " + trainer.getName() + " sends out " + this.getName() + "!");
         }
 
         this.crie();
@@ -492,7 +503,19 @@ public class Pokemon {
         return moves;
     }
 
+    /**
+     * Sets the moves that the Pokemon knows.
+     * The Pokemon must know between 1 and 4 moves.
+     *
+     * @param moves The moves that the Pokemon knows. Must be an array with between
+     *              1 and 4 entries.
+     * @throws IllegalArgumentException if the moves array has less than 1 or more
+     *                                  than 4 entries.
+     */
     public void setMoves(Move[] moves) {
+        if (moves.length < 1 || moves.length > 4) {
+            throw new IllegalArgumentException("Moves array must have between 1 and 4 entries");
+        }
         this.moves = moves;
     }
 

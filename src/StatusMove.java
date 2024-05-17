@@ -101,6 +101,71 @@ public class StatusMove extends Move {
         }
     }
 
+    public void use(Pokemon user, Pokemon target, Weather weather, boolean verbose, boolean hit, boolean paralyzed,
+            boolean confused) {
+        this.setAP(this.getAP() - 1);
+        StatusEffect userStatus = user.getStatus();
+        if (userStatus == StatusEffect.PARALYSIS || userStatus == StatusEffect.FREEZE
+                || userStatus == StatusEffect.SLEEP) {
+            if (userStatus == StatusEffect.PARALYSIS && paralyzed) {
+                System.out.println(String.format(Locale.US, "%s is paralyzed and can't move!", user.getName()));
+                return;
+            }
+            if (userStatus == StatusEffect.FREEZE) {
+                System.out.println(String.format(Locale.US, "%s is frozen solid!", user.getName()));
+                return;
+            }
+            if (userStatus == StatusEffect.SLEEP) {
+                System.out.println(String.format(Locale.US, "%s is fast asleep!", user.getName()));
+                return;
+            }
+        }
+        if (userStatus == StatusEffect.CONFUSION && confused) {
+            System.out.println(
+                    String.format(Locale.US, "%s is confused and hurt itself in its confusion!", user.getName()));
+            user.setHp((int) (user.getHp() - this.calculateConfusionDamage(user)));
+            if (verbose) {
+                System.out.println("Damage: " + (int) this.calculateConfusionDamage(user));
+            }
+            return;
+        }
+
+        System.out.println(String.format("%s used %s", user.getName(), getName()));
+        if (!hit) {
+            System.out.println(String.format(Locale.US, "%s missed the attack!", user.getName()));
+            return;
+        }
+
+        double typeMultiplier = getMoveEffectiveness(target.getPrimaryType(), target.getSecondaryType(), getType());
+        switch (String.valueOf(typeMultiplier)) {
+            case "0.0":
+                System.out.println(String.format("It doesn't affect %s...", target.getName()));
+                break;
+            case "1.0":
+                playMoveSFX();
+                printEffectivenessAndCrit(1, "Normal effectiveness.");
+                hitSFX();
+                break;
+            case "2.0":
+                printEffectivenessAndCrit(1, "It's super effective!");
+                playMoveSFX();
+                superEffectiveHitSFX();
+                break;
+            default:
+                playMoveSFX();
+                printEffectivenessAndCrit(1, "It's not very effective...");
+                notVeryEffectiveHitSFX();
+                break;
+        }
+
+        if (typeMultiplier > 0) {
+            this.getEffect().apply(user, target, verbose);
+            if (verbose) {
+                printVerboseOutput(typeMultiplier, target);
+            }
+        }
+    }
+
     /**
      * Prints a message about the effectiveness of a move and whether it was a
      * critical hit.
