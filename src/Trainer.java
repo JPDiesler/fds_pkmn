@@ -179,12 +179,14 @@ public class Trainer {
         int randomIndex = (int) (Math.random() * availablePokemon.length);
         Pokemon pkmn = availablePokemon[randomIndex];
         playSoundLoop("sounds\\battle\\Pokemon Wild Battle! Gen4.wav", "00:19.541", "01:11.733");
+        delay(5000);
         System.out.println("A wild " + pkmn.getName() + " appeared!");
+        delay(1000);
         int n = 0;
         while (n < max) {
             System.out.println(this.getName() + " throws a Pokeball...");
             boolean caught = Math.random() < 0.3;
-            delay(2000);
+            delay(2000, 5000);
             if (caught) {
                 System.out.println("Gotcha! " + pkmn.getName() + " was caught!");
                 break;
