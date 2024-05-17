@@ -193,7 +193,8 @@ public class SpecialMove extends Move {
 
         double randomMultiplier = Math.random() * 0.16 + 0.85;
         double stabMultiplier = calculateStabMultiplier(user);
-        double typeMultiplier = getMoveEffectiveness(target.getPrimaryType(), target.getSecondaryType(), getType());
+        double typeMultiplier = getMoveEffectiveness(target.getPrimaryType(), target.getSecondaryType(),
+                this.getType());
         double weatherMultiplier = weather.getMultiplier(this.getType());
         double critMultiplier = crit ? 1.5 : 1.0;
 

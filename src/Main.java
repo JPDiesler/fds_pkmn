@@ -100,18 +100,18 @@ public class Main {
                 Trainer Red = new Trainer(1, "Red", "PKMN-Trainer", RedsTeam);
                 Trainer Blue = new Trainer(2, "Blue", "Champion", BluesTeam);
 
-                Green.printTrainerInfo(true);
-                Red.printTrainerInfo(true);
-                Blue.printTrainerInfo(true);
+                // Green.printTrainerInfo(true);
+                // Red.printTrainerInfo(true);
+                // Blue.printTrainerInfo(true);
 
-                Green.catchWildPokemon(PokeDex);
-                Green.catchWildPokemon(PokeDex);
-                Green.catchWildPokemon(PokeDex);
+                // Green.catchWildPokemon(PokeDex);
+                // Green.catchWildPokemon(PokeDex);
+                // Green.catchWildPokemon(PokeDex);
 
-                Red.battle(Green, true);
+                // Red.battle(Green, true);
 
-                Green.sleep(8);
-                Red.sleep(8);
+                // Green.sleep(8);
+                // Red.sleep(8);
 
                 Red.battle(Blue, true);
 
