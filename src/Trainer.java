@@ -248,6 +248,11 @@ public class Trainer {
                 loopStartTimestamp = "0:08.917";
                 loopEndTimestamp = "01:25.935";
                 break;
+            case "Firefighter":
+                path = "sounds\\battle\\Pokemon Champion Battle! Gen4.wav";
+                loopStartTimestamp = "0:08.917";
+                loopEndTimestamp = "01:25.935";
+                break;
             case "Elite Four":
                 path = "sounds\\battle\\Pokemon Elite Four Battle! Gen4.wav";
                 loopStartTimestamp = "0:48.901";

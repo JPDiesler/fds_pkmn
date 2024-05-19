@@ -50,43 +50,43 @@ public class Main {
                 Move[] ArcanineMoves = { FlareBlitz, IronHead, PlayRough, SolarBeam };
                 Move[] NidokingMoves = { Earthquake, FireBlast, Avalanche, PoisonJab };
 
-                Pokemon Infernape = new Pokemon(392, "Infernape", Type.FIRE, Type.FIGHTING, 5, StatusEffect.NONE, 269,
-                                254, 200,
-                                254, 200, 260, InfernapeMoves);
-                Pokemon Garchomp = new Pokemon(445, "Garchomp", Type.DRAGON, Type.GROUND, 5, StatusEffect.NONE, 317,
-                                297, 239,
-                                214, 223, 250, GarchompMoves);
-                Pokemon Luxray = new Pokemon(405, "Luxray", Type.ELECTRIC, null, 5, StatusEffect.NONE, 25, 280, 213,
-                                239, 213,
-                                198, LuxrayMoves);
-                Pokemon Staraptor = new Pokemon(398, "Staraptor", Type.NORMAL, Type.FLYING, 5, StatusEffect.NONE, 283,
-                                280, 198,
-                                165, 181, 247, StaraptorMoves);
-                Pokemon Sceptile = new Pokemon(254, "Sceptile", Type.GRASS, null, 5, StatusEffect.NONE, 260, 223, 190,
-                                256, 223,
-                                2890, SceptileMoves);
-                Pokemon Gyarados = new Pokemon(130, "Gyarados", Type.WATER, Type.FLYING, 5, StatusEffect.NONE, 274, 220,
-                                247,
-                                223, 256, 211, GyaradosMoves);
+                Pokemon Infernape = new Pokemon(392, "Infernape", Type.FIRE, Type.FIGHTING, 75, StatusEffect.NONE, 76,
+                                104, 71,
+                                104, 71, 108, InfernapeMoves);
+                Pokemon Garchomp = new Pokemon(445, "Garchomp", Type.DRAGON, Type.GROUND, 75, StatusEffect.NONE, 108,
+                                130, 95,
+                                80, 85, 102, GarchompMoves);
+                Pokemon Luxray = new Pokemon(405, "Luxray", Type.ELECTRIC, null, 75, StatusEffect.NONE, 80, 120, 79,
+                                95, 79,
+                                70, LuxrayMoves);
+                Pokemon Staraptor = new Pokemon(398, "Staraptor", Type.NORMAL, Type.FLYING, 75, StatusEffect.NONE, 85,
+                                120, 70,
+                                50, 60, 100, StaraptorMoves);
+                Pokemon Sceptile = new Pokemon(254, "Sceptile", Type.GRASS, null, 75, StatusEffect.NONE, 85, 120, 70,
+                                50, 60,
+                                100, SceptileMoves);
+                Pokemon Gyarados = new Pokemon(130, "Gyarados", Type.WATER, Type.FLYING, 75, StatusEffect.NONE, 95, 125,
+                                79,
+                                60, 100, 81, GyaradosMoves);
 
-                Pokemon Blastoise = new Pokemon(9, "Blastoise", Type.WATER, null, 5, StatusEffect.NONE, 299, 254, 298,
-                                254, 298,
-                                198, BlastoiseMoves);
-                Pokemon Alakazam = new Pokemon(65, "Alakazam", Type.PSYCHIC, null, 5, StatusEffect.NONE, 238, 165, 157,
-                                305,
-                                239, 280, AlakazamMoves);
-                Pokemon Electevire = new Pokemon(466, "Electevire", Type.ELECTRIC, null, 5, StatusEffect.NONE, 268, 286,
-                                193,
-                                239, 223, 239, ElectevireMoves);
-                Pokemon Pidgeot = new Pokemon(18, "Pidgeot", Type.NORMAL, Type.FLYING, 5, StatusEffect.NONE, 280, 214,
-                                206, 198,
-                                198, 249, PidgeotMoves);
-                Pokemon Arcanine = new Pokemon(59, "Arcanine", Type.FIRE, null, 5, StatusEffect.NONE, 290, 264, 214,
-                                247, 214,
-                                239, ArcanineMoves);
-                Pokemon Nidoking = new Pokemon(34, "Nidoking", Type.POISON, Type.GROUND, 5, StatusEffect.NONE, 277, 250,
-                                210,
-                                223, 206, 223, NidokingMoves);
+                Pokemon Blastoise = new Pokemon(9, "Blastoise", Type.WATER, null, 75, StatusEffect.NONE, 79, 83, 100,
+                                85, 105,
+                                78, BlastoiseMoves);
+                Pokemon Alakazam = new Pokemon(65, "Alakazam", Type.PSYCHIC, null, 75, StatusEffect.NONE, 55, 50, 45,
+                                135,
+                                95, 120, AlakazamMoves);
+                Pokemon Electevire = new Pokemon(466, "Electevire", Type.ELECTRIC, null, 75, StatusEffect.NONE, 75, 123,
+                                67,
+                                95, 85, 95, ElectevireMoves);
+                Pokemon Pidgeot = new Pokemon(18, "Pidgeot", Type.NORMAL, Type.FLYING, 75, StatusEffect.NONE, 83, 80,
+                                75, 70,
+                                70, 101, PidgeotMoves);
+                Pokemon Arcanine = new Pokemon(59, "Arcanine", Type.FIRE, null, 75, StatusEffect.NONE, 90, 110, 80,
+                                100, 80,
+                                95, ArcanineMoves);
+                Pokemon Nidoking = new Pokemon(34, "Nidoking", Type.POISON, Type.GROUND, 75, StatusEffect.NONE, 81, 102,
+                                77,
+                                85, 75, 85, NidokingMoves);
 
                 Pokemon[] PokeDex = { Infernape, Garchomp, Luxray, Staraptor, Sceptile, Gyarados, Blastoise, Alakazam,
                                 Electevire,
@@ -100,21 +100,69 @@ public class Main {
                 Trainer Red = new Trainer(1, "Red", "PKMN-Trainer", RedsTeam);
                 Trainer Blue = new Trainer(2, "Blue", "Champion", BluesTeam);
 
-                // Green.printTrainerInfo(true);
-                // Red.printTrainerInfo(true);
-                // Blue.printTrainerInfo(true);
+                Move Pyroball = new PhysicalMove("Pyro Ball", Type.FIRE, 120, 90, 5, Effect.BURN, 0.75);
+                Move ScorchingSands = new SpecialMove("Scorching Sands", Type.GROUND, 70, 100, 10, Effect.BURN, 0.3);
+                Move Bounce = new PhysicalMove("Bounce", Type.FLYING, 85, 85, 5, Effect.PARALYSIS, 0.3);
+                Move HighJumpKick = new PhysicalMove("High Jump Kick", Type.FIGHTING, 130, 90, 10);
+                Move Inferno = new SpecialMove("Inferno", Type.FIRE, 100, 50, 5, Effect.BURN, 1);
+                Move DragonClaw = new PhysicalMove("Dragon Claw", Type.DRAGON, 80, 100, 15);
+                Move ThunderPunch = new PhysicalMove("Thunder Punch", Type.ELECTRIC, 75, 100, 15);
+                Move AerialAce = new PhysicalMove("Aerial Ace", Type.FLYING, 60, 100, 20);
+                Move Overheat = new SpecialMove("Overheat", Type.FIRE, 130, 90, 5, Effect.BURN, 0.5);
+                Move DragonAscent = new PhysicalMove("Dragon Ascent", Type.FLYING, 120, 100, 5);
+                Move Blizzard = new SpecialMove("Blizzard", Type.ICE, 110, 70, 5, Effect.FREEZE, 0.1);
+                Move[] JP_CinderaceMoves = { Pyroball, Bounce, HighJumpKick, ScorchingSands };
+                Move[] JP_CharizardMoves = { Inferno, DragonClaw, Earthquake, ThunderPunch };
+                Move[] JP_TyphlosionMoves = { Overheat, Earthquake, IronHead, AerialAce };
+                Move[] JP_TalonflameMoves = { BraveBird, Hurricane, SteelWing, FlareBlitz };
+                Move[] JP_RayquazaMoves = { DragonAscent, DracoMeteor, Blizzard, Thunder };
+                Pokemon JP_Infernape = new Pokemon(392, "Infernape", Type.FIRE, Type.FIGHTING, 90, StatusEffect.NONE,
+                                76,
+                                104, 71,
+                                104, 71, 108, InfernapeMoves);
+                Pokemon JP_Cinderace = new Pokemon(815, "Cinderace", Type.FIRE, Type.FIGHTING, 90, StatusEffect.NONE,
+                                80,
+                                116,
+                                75, 65, 75, 119, JP_CinderaceMoves);
+                Pokemon JP_Charizard = new Pokemon(6, "Charizard", Type.FIRE, Type.FLYING, 90, StatusEffect.NONE, 78,
+                                84,
+                                78,
+                                109, 85, 100, JP_CharizardMoves);
+                Pokemon JP_Typhlosion = new Pokemon(157, "Typhlosion", Type.FIRE, 90, StatusEffect.NONE, 78, 84,
+                                78,
+                                109, 85, 100, JP_TyphlosionMoves);
+                Pokemon JP_Talonflame = new Pokemon(663, "Talonflame", Type.FIRE, Type.FLYING, 90, StatusEffect.NONE,
+                                78,
+                                81,
+                                71, 74, 69, 126, JP_TalonflameMoves);
+                Pokemon JP_Rayquaza = new Pokemon(384, "Rayquaza", Type.DRAGON, Type.FLYING, 100, StatusEffect.NONE,
+                                105,
+                                150,
+                                90, 150, 90, 95, JP_RayquazaMoves);
 
-                // Green.catchWildPokemon(PokeDex);
-                // Green.catchWildPokemon(PokeDex);
-                // Green.catchWildPokemon(PokeDex);
+                Pokemon[] JPsTeam = { JP_Infernape, JP_Cinderace, JP_Charizard, JP_Typhlosion, JP_Talonflame,
+                                JP_Rayquaza };
 
-                // Red.battle(Green, true);
+                Trainer JP = new Trainer(3, "JP", "Firefighter", JPsTeam);
 
-                // Green.sleep(8);
-                // Red.sleep(8);
+                Green.printTrainerInfo(true);
+                Red.printTrainerInfo(true);
+                Blue.printTrainerInfo(true);
+
+                Green.catchWildPokemon(PokeDex);
+                Green.catchWildPokemon(PokeDex);
+                Green.catchWildPokemon(PokeDex);
+
+                Red.battle(Green, true);
+
+                Green.sleep(8);
+                Red.sleep(8);
 
                 Red.battle(Blue, true);
 
-                System.out.println("Battle ended");
+                Red.sleep(8);
+                Blue.sleep(8);
+
+                Red.battle(JP, true);
         }
 }
