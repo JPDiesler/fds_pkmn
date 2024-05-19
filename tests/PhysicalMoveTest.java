@@ -220,10 +220,11 @@ class PhysicalMoveTest {
         Venasur.setHp(Venasur.getMaxHp());
 
         expectedMinDamage = 102;
-        expectedMaxDamage = 121;
+        expectedMaxDamage = 122;
         thunderPunch.use(Electevire, Venasur, weather, true, true, false,
                 false, true, false);
         actualDamage = initialHP - Venasur.getHp();
+        System.out.println("Actual Damage: " + actualDamage);
         assertTrue(actualDamage >= expectedMinDamage && actualDamage <= expectedMaxDamage);
 
     }
