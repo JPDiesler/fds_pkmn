@@ -105,4 +105,65 @@ public class SpecialMoveTest {
         // Assert that the calculated base damage matches the expected value
         assertEquals(expectedBaseDamage, baseDamage, 0.01);
     }
+
+    @Test
+    public void testDamageCalculation() {
+        SpecialMove move = new SpecialMove("Fire Blast", Type.FIRE, 110, 85, 5);
+        Move[] moves = { move };
+        Pokemon Charizard = new Pokemon(6, "Charizard", Type.FIRE, 65, StatusEffect.NONE, 100, 100, 100, 100, 100, 100,
+                moves);
+        // ineffective target
+        Pokemon Blastoise = new Pokemon(9, "Blastoise", Type.WATER, 65, StatusEffect.NONE,
+                600, 83, 100, 85,
+                105, 78, moves);
+        // effective target
+        Pokemon Venasur = new Pokemon(3, "Venasur", Type.GRASS, 65, StatusEffect.NONE,
+                600, 83, 100, 85,
+                105, 78, moves);
+        // neutral target
+        Pokemon Ambipom = new Pokemon(424, "Ambipom", Type.NORMAL, 65, StatusEffect.NONE, 200, 100, 66, 60,
+                66, 115, moves);
+        Weather weather = Weather.CLEAR;
+        System.out.println("Charizard Attack:" + Charizard.getSpecialAttack());
+        System.out.println("Blatoise Defense:" + Blastoise.getSpecialDefense());
+        move.use(Charizard, Blastoise, weather, true, true, false, false, false, false);
+        int actualDamage = Blastoise.getMaxHp() - Blastoise.getHp();
+        int expectedMinDamage = 39; // Minimum expected damage
+        int expectedMaxDamage = 47; // Maximum expected damage
+        assertTrue(actualDamage >= expectedMinDamage && actualDamage <= expectedMaxDamage);
+        Blastoise.setHp(Blastoise.getMaxHp());
+        move.use(Charizard, Blastoise, weather, true, true, true, false, false, false);
+        expectedMinDamage = 59;
+        expectedMaxDamage = 70;
+        actualDamage = Blastoise.getMaxHp() - Blastoise.getHp();
+        assertTrue(actualDamage >= expectedMinDamage && actualDamage <= expectedMaxDamage);
+
+        System.out.println("Charizard Attack:" + Charizard.getSpecialAttack());
+        System.out.println("Venasur Defense:" + Venasur.getSpecialDefense());
+        move.use(Charizard, Venasur, weather, true, true, false, false, false, false);
+        expectedMinDamage = 157;
+        expectedMaxDamage = 185;
+        actualDamage = Venasur.getMaxHp() - Venasur.getHp();
+        assertTrue(actualDamage >= expectedMinDamage && actualDamage <= expectedMaxDamage);
+        Venasur.setHp(Venasur.getMaxHp());
+        move.use(Charizard, Venasur, weather, true, true, true, false, false, false);
+        expectedMinDamage = 236;
+        expectedMaxDamage = 278;
+        actualDamage = Venasur.getMaxHp() - Venasur.getHp();
+        assertTrue(actualDamage >= expectedMinDamage && actualDamage <= expectedMaxDamage);
+
+        System.out.println("Charizard Attack:" + Charizard.getSpecialAttack());
+        System.out.println("Ambipom Defense:" + Ambipom.getSpecialDefense());
+        move.use(Charizard, Ambipom, weather, true, true, false, false, false, false);
+        expectedMinDamage = 104;
+        expectedMaxDamage = 123;
+        actualDamage = Ambipom.getMaxHp() - Ambipom.getHp();
+        assertTrue(actualDamage >= expectedMinDamage && actualDamage <= expectedMaxDamage);
+        Ambipom.setHp(Ambipom.getMaxHp());
+        move.use(Charizard, Ambipom, weather, true, true, true, false, false, false);
+        expectedMinDamage = 156;
+        expectedMaxDamage = 184;
+        actualDamage = Ambipom.getMaxHp() - Ambipom.getHp();
+        assertTrue(actualDamage >= expectedMinDamage && actualDamage <= expectedMaxDamage);
+    }
 }
