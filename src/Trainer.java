@@ -214,13 +214,29 @@ public class Trainer {
 
     /**
      * Initiates a battle between this trainer and an opponent.
-     * 
+     *
      * @param opponent The opposing trainer.
+     * @param weather  The current weather condition during the battle.
      * @param verbose  If true, prints detailed information about each turn in the
      *                 battle.
+     * 
+     *                 The battle process includes:
+     *                 - Playing a sound loop based on the title of the opponent.
+     *                 - Displaying the health of each Pokemon at the start of each
+     *                 turn.
+     *                 - Determining which Pokemon attacks first based on their
+     *                 speed.
+     *                 - Applying weather and status effects at the end of each
+     *                 turn.
+     *                 - Checking if a Pokemon has fainted due to weather or status
+     *                 effects.
+     *                 - Handling the event of a Pokemon fainting.
+     *                 - Declaring the winner of the battle based on which Pokemon
+     *                 faints first.
+     * 
      * @return 1 if this trainer wins the battle, -1 if the opponent wins.
      */
-    public int battle(Trainer opponent, boolean verbose) {
+    public int battle(Trainer opponent, Weather weather, boolean verbose) {
         System.out.println("-".repeat(35) + " Pokemon Battle Start " + "-".repeat(35));
         System.out.println();
         String path;
@@ -259,8 +275,6 @@ public class Trainer {
         System.out.println(this.title + " " + this.name + " challenges " + opponent.title + " " + opponent.getName()
                 + " to a battle!\n");
         delay(9000);
-
-        Weather weather = Weather.SANDSTORM;
         int turn = 1;
         Pokemon pokemon_1 = this.team[0];
         Pokemon pokemon_2 = opponent.team[0];
@@ -334,6 +348,27 @@ public class Trainer {
             }
             turn++;
         }
+    }
+
+    /**
+     * Initiates a battle between this trainer and an opponent with a randomly
+     * chosen weather condition.
+     *
+     * @param opponent The opposing trainer.
+     * @param verbose  If true, prints detailed information about each turn in the
+     *                 battle.
+     * 
+     *                 The method performs the following steps:
+     *                 - Retrieves all possible weather conditions.
+     *                 - Selects a random weather condition for the battle.
+     *                 - Initiates the battle with the selected weather condition.
+     * 
+     * @return 1 if this trainer wins the battle, -1 if the opponent wins.
+     */
+    public int battle(Trainer oppoent, boolean verbose) {
+        Weather[] weathers = Weather.values();
+        Weather randomWeather = weathers[(int) (Math.random() * weathers.length)];
+        return battle(oppoent, randomWeather, verbose);
     }
 
     /**
@@ -504,7 +539,7 @@ public class Trainer {
      * 
      * @param path The path to the sound file.
      */
-    public void playSFX(String path) {
+    private void playSFX(String path) {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
             Clip clip = AudioSystem.getClip();

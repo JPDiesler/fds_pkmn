@@ -34,18 +34,25 @@ public enum Weather {
                 break;
             case SUNNY:
                 System.out.println("The sunlight is strong!");
+                break;
             case RAIN:
                 System.out.println("It's raining!");
+                break;
             case HARSH_SUNLIGHT:
                 System.out.println("The sunlight is harsh!");
+                break;
             case HEAVY_RAIN:
                 System.out.println("It's raining heavily!");
+                break;
             case EXTREMELY_HARSH_SUNLIGHT:
                 System.out.println("The sunlight is extremely harsh!");
+                break;
             case FOG:
                 System.out.println("It's foggy!");
+                break;
             case SNOW:
                 System.out.println("It's snowing!");
+                break;
             default:
                 // No effects
                 break;
